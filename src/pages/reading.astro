@@ -1,0 +1,159 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Reading | Sylvia Xiao</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/page-backgrounds.css">
+    
+    <style>
+      :root{ --fg:#1e2228; --muted:#5c6575; --line:#00000018; --link:#f59e0b; --max:980px; --pad:22px; }
+      @media (prefers-color-scheme: dark){ :root{ --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22; --link:#fbbf24; } }
+      *{ box-sizing:border-box }
+      body{ margin:0; color:var(--fg); font:16px/1.7 Inter, system-ui, sans-serif; }
+      
+      .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); }
+      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px }
+      nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative }
+      nav a:hover{ color:var(--fg) }
+      nav a[href="/reading"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(1); transform-origin:left; transition:.25s; 
+      }
+      nav a:not([href="/reading"])::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+      
+      .page-container{ min-height: 100vh; padding: 2rem 0; }
+      .page-content{ max-width: 980px; margin: 0 auto; padding: 2rem 22px; background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; color:#f59e0b; }
+      .page-subtitle{ font-size:20px; color:var(--muted); text-align:center; margin-bottom:3rem; }
+      
+      @media (max-width:768px){ .page-title{ font-size:36px; } .page-content{ padding:1rem; } }
+    </style>
+  </head>
+
+  <body class="reading-page">
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <div class="navWrap">
+      <nav>
+        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+        <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
+        <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
+        <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
+        <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
+        <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div class="page-content">
+        <h1 class="page-title">Reading</h1>
+        <p class="page-subtitle">Marginalia · Reading notes and marginalia. Short extractions, longer reviews when deserved.</p>
+        
+        <div class="content-section">
+          <h2>Recent Reads</h2>
+          <p>Short extractions, longer reviews when deserved.</p>
+          
+          <div class="reading-highlight">
+            <h4>The Language Instinct by Steven Pinker</h4>
+            <p><strong>Genre:</strong> Psycholinguistics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Pinker's exploration of language as an instinct provides fascinating insights into how humans acquire and use language. His arguments about universal grammar are compelling, though some aspects feel dated given recent developments in cognitive science.</p>
+            <p><em>Key insight:</em> "Language is not a cultural artifact that we learn the way we learn to tell time or how the federal government works. Instead, it is a distinct piece of the biological makeup of our brains."</p>
+          </div>
+          
+          <div class="reading-highlight">
+            <h4>Metaphors We Live By by Lakoff & Johnson</h4>
+            <p><strong>Genre:</strong> Cognitive Linguistics</p>
+            <p><strong>Rating:</strong> ★★★★★</p>
+            <p>Revolutionary work that shows how metaphors structure our understanding of abstract concepts. Essential reading for anyone interested in how language shapes thought.</p>
+            <p><em>Key insight:</em> "The essence of metaphor is understanding and experiencing one kind of thing in terms of another."</p>
+          </div>
+          
+          <div class="reading-highlight">
+            <h4>The Art of Language by David Crystal</h4>
+            <p><strong>Genre:</strong> Linguistics</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Crystal's accessible introduction to linguistics covers everything from phonetics to sociolinguistics. Great for understanding the breadth of linguistic study.</p>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h2>Academic Papers</h2>
+          <p>Selected papers and their implications for computational linguistics and psycholinguistics.</p>
+          
+          <div class="reading-highlight">
+            <h4>"Attention Is All You Need" (Vaswani et al., 2017)</h4>
+            <p><strong>Field:</strong> Natural Language Processing</p>
+            <p>The transformer architecture that revolutionized NLP. Reading this paper helped me understand how attention mechanisms can capture long-range dependencies in language.</p>
+          </div>
+          
+          <div class="reading-highlight">
+            <h4>"The Poverty of the Stimulus Argument" (Pullum & Scholz, 2002)</h4>
+            <p><strong>Field:</strong> Psycholinguistics</p>
+            <p>Critical examination of Chomsky's poverty of stimulus argument. Challenges assumptions about language acquisition and universal grammar.</p>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h2>Fiction & Literature</h2>
+          <p>Literary works that explore language, identity, and cultural expression.</p>
+          
+          <div class="reading-highlight">
+            <h4>The Joy Luck Club by Amy Tan</h4>
+            <p><strong>Genre:</strong> Fiction</p>
+            <p><strong>Rating:</strong> ★★★★☆</p>
+            <p>Explores the complexities of communication across generations and cultures. The interweaving of English and Chinese perspectives offers insights into linguistic identity.</p>
+          </div>
+          
+          <div class="reading-highlight">
+            <h4>If on a winter's night a traveler by Italo Calvino</h4>
+            <p><strong>Genre:</strong> Experimental Fiction</p>
+            <p><strong>Rating:</strong> ★★★★★</p>
+            <p>Metafictional exploration of reading and narrative. Calvino's play with language and structure challenges conventional storytelling.</p>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <h2>Reading Notes</h2>
+          <p>Marginalia and personal reflections on texts.</p>
+          
+          <div class="reading-highlight">
+            <h4>Cross-linguistic Patterns</h4>
+            <p>Noticing how different languages encode similar concepts through different grammatical structures. Cantonese classifiers, Japanese honorifics, German compound formation.</p>
+          </div>
+          
+          <div class="reading-highlight">
+            <h4>Language & Emotion</h4>
+            <p>How different languages express emotional states and how this affects cross-cultural communication and understanding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

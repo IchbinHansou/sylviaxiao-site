@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylvia & Tree Pixel Art</title>
+    <style>
+        body {
+            background: #2c3e50;
+            font-family: 'Courier New', monospace;
+            color: white;
+            padding: 20px;
+        }
+        
+        .pixel-art {
+            display: inline-block;
+            margin: 20px;
+            border: 2px solid #34495e;
+            background: #ecf0f1;
+        }
+        
+        .character {
+            width: 64px;
+            height: 64px;
+            position: relative;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Sylvia Character - 64x64 pixels */
+        .sylvia {
+            background: 
+                /* Hair (black) */
+                linear-gradient(90deg, transparent 0%, transparent 20%, #2c3e50 20%, #2c3e50 80%, transparent 80%),
+                /* Face */
+                linear-gradient(90deg, transparent 0%, transparent 25%, #fdbcb4 25%, #fdbcb4 75%, transparent 75%),
+                /* Shirt (white) */
+                linear-gradient(90deg, transparent 0%, transparent 20%, #ffffff 20%, #ffffff 80%, transparent 80%),
+                /* Skirt (gray plaid) */
+                linear-gradient(90deg, transparent 0%, transparent 20%, #95a5a6 20%, #95a5a6 80%, transparent 80%),
+                /* Background */
+                #ecf0f1;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+            background-position: 0% 0%, 0% 20%, 0% 40%, 0% 60%, 0% 0%;
+        }
+        
+        /* Tree Character - 32x32 pixels */
+        .tree {
+            width: 32px;
+            height: 32px;
+            background: 
+                /* Leaf */
+                radial-gradient(circle at 50% 20%, #27ae60 0%, #27ae60 30%, transparent 30%),
+                /* Body (white ghost) */
+                radial-gradient(ellipse at 50% 70%, #ffffff 0%, #ffffff 80%, transparent 80%),
+                /* Eyes */
+                radial-gradient(circle at 40% 50%, #2c3e50 0%, #2c3e50 15%, transparent 15%),
+                radial-gradient(circle at 60% 50%, #2c3e50 0%, #2c3e50 15%, transparent 15%),
+                /* Blush */
+                radial-gradient(circle at 30% 60%, #ff6b9d 0%, #ff6b9d 20%, transparent 20%),
+                radial-gradient(circle at 70% 60%, #ff6b9d 0%, #ff6b9d 20%, transparent 20%),
+                /* Background */
+                transparent;
+            background-size: 100% 100%, 100% 100%, 20% 20%, 20% 20%, 15% 15%, 15% 15%, 100% 100%;
+            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+        }
+        
+        .container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .character-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .animation-preview {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .spritesheet {
+            border: 2px solid #34495e;
+            background: white;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        /* Animation frames */
+        .frame {
+            width: 64px;
+            height: 64px;
+            display: inline-block;
+            border: 1px solid #bdc3c7;
+            margin: 2px;
+            background: #ecf0f1;
+            position: relative;
+        }
+        
+        /* Sylvia watering animation frames */
+        .frame-1 .sylvia-arm { transform: rotate(0deg); }
+        .frame-2 .sylvia-arm { transform: rotate(15deg); }
+        .frame-3 .sylvia-arm { transform: rotate(30deg); }
+        .frame-4 .sylvia-arm { transform: rotate(45deg); }
+        .frame-5 .sylvia-arm { transform: rotate(30deg); }
+        .frame-6 .sylvia-arm { transform: rotate(15deg); }
+        .frame-7 .sylvia-arm { transform: rotate(0deg); }
+        .frame-8 .sylvia-arm { transform: rotate(0deg); }
+        
+        /* Water drops */
+        .water-drop {
+            position: absolute;
+            width: 4px;
+            height: 6px;
+            background: #3498db;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: fall 0.5s linear infinite;
+        }
+        
+        @keyframes fall {
+            0% { top: 10px; opacity: 1; }
+            100% { top: 50px; opacity: 0; }
+        }
+        
+        /* Tree happy animation */
+        .tree-happy {
+            animation: bounce 0.3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        .leaf-shake {
+            animation: shake 0.2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes shake {
+            0% { transform: rotate(-5deg); }
+            100% { transform: rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🌲 Sylvia & Tree Pixel Art Characters</h1>
+    
+    <div class="container">
+        <div>
+            <div class="pixel-art">
+                <div class="character sylvia"></div>
+            </div>
+            <div class="character-info">
+                <h3>Sylvia</h3>
+                <p>Black hair, glasses, white shirt,<br>gray plaid skirt, blue watering can</p>
+            </div>
+        </div>
+        
+        <div>
+            <div class="pixel-art">
+                <div class="character tree"></div>
+            </div>
+            <div class="character-info">
+                <h3>Tree Ghost</h3>
+                <p>White ghost body, black eyes,<br>blush, green leaf on head</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="animation-preview">
+        <h2>Animation Preview</h2>
+        <p>Sylvia watering the tree - 8 frames</p>
+        
+        <div class="spritesheet">
+            <div class="frame frame-1">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0s;"></div>
+            </div>
+            <div class="frame frame-2">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.1s;"></div>
+            </div>
+            <div class="frame frame-3">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.2s;"></div>
+            </div>
+            <div class="frame frame-4">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.3s;"></div>
+            </div>
+            <div class="frame frame-5">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.4s;"></div>
+            </div>
+            <div class="frame frame-6">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.5s;"></div>
+            </div>
+            <div class="frame frame-7">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.6s;"></div>
+            </div>
+            <div class="frame frame-8">
+                <div class="character sylvia"></div>
+                <div class="water-drop" style="left: 45px; animation-delay: 0.7s;"></div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <div class="character tree tree-happy"></div>
+            <p>Tree becomes happy when watered!</p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 40px; text-align: center;">
+        <h3>Technical Details</h3>
+        <ul style="text-align: left; display: inline-block;">
+            <li><strong>Character Size:</strong> 64x64 pixels (Sylvia), 32x32 pixels (Tree)</li>
+            <li><strong>Animation Frames:</strong> 8 frames for watering sequence</li>
+            <li><strong>Style:</strong> 16-bit pixel art (RPG Maker/Undertale style)</li>
+            <li><strong>Background:</strong> Transparent PNG ready</li>
+            <li><strong>Format:</strong> Spritesheet ready for CSS/JS animation</li>
+        </ul>
+    </div>
+</body>
+</html>

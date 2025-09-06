@@ -1,0 +1,105 @@
+---
+// src/pages/reading-admin.astro
+import { readingData } from '../data/reading-list.js';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Reading Admin | Sylvia Xiao</title>
+  <style>
+    body { font-family: Inter, sans-serif; margin: 2rem; }
+    .form-group { margin: 1rem 0; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    input, textarea, select { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; }
+    button { background: #f59e0b; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; }
+    .book-item { border: 1px solid #eee; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>📚 Reading List Admin</h1>
+  
+  <!-- 添加新书表单 -->
+  <form id="addBookForm">
+    <h2>Add New Book</h2>
+    <div class="form-group">
+      <label>Title:</label>
+      <input type="text" name="title" required>
+    </div>
+    <div class="form-group">
+      <label>Author:</label>
+      <input type="text" name="author" required>
+    </div>
+    <div class="form-group">
+      <label>Genre:</label>
+      <select name="genre">
+        <option value="Psycholinguistics">Psycholinguistics</option>
+        <option value="Cognitive Linguistics">Cognitive Linguistics</option>
+        <option value="Linguistics">Linguistics</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Nonfiction">Nonfiction</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Rating (1-5):</label>
+      <input type="number" name="rating" min="1" max="5" required>
+    </div>
+    <div class="form-group">
+      <label>Notes:</label>
+      <textarea name="notes" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Key Insight:</label>
+      <textarea name="keyInsight" rows="2"></textarea>
+    </div>
+    <button type="submit">Add Book</button>
+  </form>
+
+  <!-- 当前书籍列表 -->
+  <h2>Current Books</h2>
+  <div id="booksList">
+    {readingData.books.map(book => (
+      <div class="book-item">
+        <h3>{book.title} by {book.author}</h3>
+        <p><strong>Genre:</strong> {book.genre} | <strong>Rating:</strong> {'★'.repeat(book.rating)}{'☆'.repeat(5-book.rating)}</p>
+        <p><strong>Notes:</strong> {book.notes}</p>
+        {book.keyInsight && <p><em>Key insight:</em> "{book.keyInsight}"</p>}
+      </div>
+    ))}
+  </div>
+
+  <script>
+    document.getElementById('addBookForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const newBook = {
+        title: formData.get('title'),
+        author: formData.get('author'),
+        genre: formData.get('genre'),
+        rating: parseInt(formData.get('rating')),
+        notes: formData.get('notes'),
+        keyInsight: formData.get('keyInsight')
+      };
+      
+      // 生成 Astro 代码
+      const astroCode = `
+<div class="reading-highlight">
+  <h4>${newBook.title} by ${newBook.author}</h4>
+  <p><strong>Genre:</strong> ${newBook.genre}</p>
+  <p><strong>Rating:</strong> ${'★'.repeat(newBook.rating)}${'☆'.repeat(5-newBook.rating)}</p>
+  <p>${newBook.notes}</p>
+  ${newBook.keyInsight ? `<p><em>Key insight:</em> "${newBook.keyInsight}"</p>` : ''}
+</div>`;
+      
+      // 复制到剪贴板
+      navigator.clipboard.writeText(astroCode).then(() => {
+        alert('代码已复制到剪贴板！请粘贴到 reading.astro 文件中。');
+        this.reset();
+      });
+    });
+  </script>
+</body>
+</html>

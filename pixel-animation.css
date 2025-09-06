@@ -1,0 +1,177 @@
+/* Sylvia & Tree Pixel Art Animation CSS */
+
+/* Character Sprites */
+.sylvia-character {
+    width: 64px;
+    height: 64px;
+    background-image: url('sylvia-spritesheet.png');
+    background-size: 512px 64px; /* 8 frames × 64px */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.tree-character {
+    width: 32px;
+    height: 32px;
+    background-image: url('tree-spritesheet.png');
+    background-size: 128px 32px; /* 4 frames × 32px */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Sylvia Watering Animation */
+.sylvia-watering {
+    animation: sylviaWatering 2s ease-in-out infinite;
+}
+
+@keyframes sylviaWatering {
+    0% { background-position: 0px 0px; }
+    12.5% { background-position: -64px 0px; }
+    25% { background-position: -128px 0px; }
+    37.5% { background-position: -192px 0px; }
+    50% { background-position: -256px 0px; }
+    62.5% { background-position: -320px 0px; }
+    75% { background-position: -384px 0px; }
+    87.5% { background-position: -448px 0px; }
+    100% { background-position: 0px 0px; }
+}
+
+/* Tree Happy Animation */
+.tree-happy {
+    animation: treeHappy 1s ease-in-out infinite;
+}
+
+@keyframes treeHappy {
+    0% { 
+        background-position: 0px 0px;
+        transform: scale(1);
+    }
+    25% { 
+        background-position: -32px 0px;
+        transform: scale(1.05);
+    }
+    50% { 
+        background-position: -64px 0px;
+        transform: scale(1.1);
+    }
+    75% { 
+        background-position: -96px 0px;
+        transform: scale(1.05);
+    }
+    100% { 
+        background-position: 0px 0px;
+        transform: scale(1);
+    }
+}
+
+/* Water Drop Animation */
+.water-drop {
+    position: absolute;
+    width: 4px;
+    height: 6px;
+    background: #3498db;
+    border-radius: 50%;
+    animation: waterDrop 0.8s linear infinite;
+}
+
+@keyframes waterDrop {
+    0% { 
+        top: 15px; 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        top: 30px; 
+        opacity: 0.7; 
+        transform: scale(0.8);
+    }
+    100% { 
+        top: 45px; 
+        opacity: 0; 
+        transform: scale(0.5);
+    }
+}
+
+/* Container for Animation Scene */
+.animation-scene {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 80px;
+    background: transparent;
+}
+
+/* Positioning */
+.sylvia-character {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.tree-character {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.water-drop {
+    left: 45px;
+    top: 15px;
+}
+
+/* Hover Effects */
+.sylvia-character:hover {
+    animation-play-state: paused;
+}
+
+.tree-character:hover {
+    animation-play-state: paused;
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+    .sylvia-character {
+        width: 48px;
+        height: 48px;
+        background-size: 384px 48px;
+    }
+    
+    .tree-character {
+        width: 24px;
+        height: 24px;
+        background-size: 96px 24px;
+    }
+    
+    .animation-scene {
+        width: 75px;
+        height: 60px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .water-drop {
+        background: #5dade2;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .sylvia-watering,
+    .tree-happy,
+    .water-drop {
+        animation: none;
+    }
+    
+    .sylvia-character {
+        background-position: 0px 0px;
+    }
+    
+    .tree-character {
+        background-position: 0px 0px;
+    }
+}

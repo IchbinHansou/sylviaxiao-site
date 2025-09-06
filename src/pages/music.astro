@@ -1,0 +1,509 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Music | Sylvia Xiao</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/page-backgrounds.css">
+    
+    <style>
+      :root{ --fg:#1e2228; --muted:#5c6575; --line:#00000018; --link:#ec4899; --max:980px; --pad:22px; }
+      @media (prefers-color-scheme: dark){ :root{ --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22; --link:#f472b6; } }
+      *{ box-sizing:border-box }
+      body{ margin:0; color:var(--fg); font:16px/1.7 Inter, system-ui, sans-serif; }
+      
+      .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); }
+      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px }
+      nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative }
+      nav a:hover{ color:var(--fg) }
+      nav a[href="/music"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#ec4899,#db2777); transform:scaleX(1); transform-origin:left; transition:.25s; 
+      }
+      nav a:not([href="/music"])::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+      
+      .page-container{ min-height: 100vh; padding: 2rem 0; }
+      .page-content{ max-width: 980px; margin: 0 auto; padding: 2rem 22px; background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; color:#ec4899; }
+      .page-subtitle{ font-size:20px; color:var(--muted); text-align:center; margin-bottom:3rem; }
+      
+      /* 内容区域 */
+      .content-section{ margin:2rem 0; padding:2rem; background:color-mix(in oklab,#ffffff 70%, transparent); border-radius:12px; border:1px solid var(--line); }
+      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; color:#ec4899; }
+      
+      /* 音乐卡片网格 */
+      .music-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      
+      .music-card {
+        background: color-mix(in oklab, #ffffff 90%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      
+      .music-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(236, 72, 153, 0.15);
+        border-color: rgba(236, 72, 153, 0.3);
+      }
+      
+      .music-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      
+      .music-card h3 {
+        font-family: "EB Garamond", serif;
+        font-size: 1.5rem;
+        margin: 0 0 0.5rem;
+        color: #ec4899;
+      }
+      
+      .music-description {
+        color: var(--muted);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+      
+      .lyrics-preview {
+        background: color-mix(in oklab, #fce7f3 50%, transparent);
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border-left: 3px solid #ec4899;
+      }
+      
+      .lyrics-preview p {
+        margin: 0.25rem 0;
+        font-style: italic;
+        color: #be185d;
+      }
+      
+      .audio-player {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        padding: 0.75rem;
+        background: color-mix(in oklab, #fce7f3 30%, transparent);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .audio-player:hover {
+        background: color-mix(in oklab, #fce7f3 50%, transparent);
+        transform: scale(1.02);
+      }
+      
+      .play-button {
+        width: 32px;
+        height: 32px;
+        background: #ec4899;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+      }
+      
+      .music-tags {
+        margin-top: 1rem;
+      }
+      
+      .tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(236, 72, 153, 0.1);
+        color: #be185d;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      
+      /* 分析卡片网格 */
+      .analysis-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      
+      .analysis-card {
+        background: color-mix(in oklab, #ffffff 85%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+      
+      .analysis-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.1);
+      }
+      
+      .analysis-card h4 {
+        color: #ec4899;
+        margin-bottom: 0.5rem;
+      }
+      
+      .tone-pattern {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+      
+      .tone {
+        padding: 0.25rem 0.5rem;
+        background: rgba(236, 72, 153, 0.1);
+        color: #be185d;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+      
+      .example-text {
+        font-style: italic;
+        color: var(--muted);
+        margin-top: 0.5rem;
+      }
+      
+      .metaphor-examples {
+        margin-top: 1rem;
+      }
+      
+      .metaphor-item {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      
+      .metaphor-item:last-child {
+        border-bottom: none;
+      }
+      
+      /* 音乐highlight样式 */
+      .music-highlight{ background:linear-gradient(135deg,#fce7f3,#fbcfe8); padding:1rem; border-radius:8px; border-left:4px solid #ec4899; margin:1rem 0; }
+      .music-highlight h4{ margin:0 0 0.5rem; color:#be185d; }
+      
+      /* 学习提示 */
+      .learning-tips {
+        margin-top: 1rem;
+      }
+      
+      .tip-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+      }
+      
+      .tip-icon {
+        font-size: 1.2rem;
+      }
+      
+      /* 时间线 */
+      .process-timeline {
+        margin: 2rem 0;
+        position: relative;
+      }
+      
+      .process-timeline::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #ec4899, #db2777);
+      }
+      
+      .timeline-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+      
+      .timeline-marker {
+        width: 40px;
+        height: 40px;
+        background: #ec4899;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+        z-index: 1;
+      }
+      
+      .timeline-content {
+        flex: 1;
+        background: color-mix(in oklab, #ffffff 85%, transparent);
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+      
+      .timeline-content h4 {
+        color: #ec4899;
+        margin-bottom: 0.5rem;
+      }
+      
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .music-card, .analysis-card, .timeline-content {
+          background: color-mix(in oklab, #1f2937 90%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lyrics-preview {
+          background: color-mix(in oklab, #831843 30%, transparent);
+        }
+        
+        .audio-player {
+          background: color-mix(in oklab, #831843 20%, transparent);
+        }
+        
+        .tag {
+          background: rgba(236, 72, 153, 0.2);
+          color: #f472b6;
+        }
+        
+        .tone {
+          background: rgba(236, 72, 153, 0.2);
+          color: #f472b6;
+        }
+      }
+      
+      @media (max-width:768px){ 
+        .page-title{ font-size:36px; } 
+        .page-content{ padding:1rem; } 
+        .music-grid { grid-template-columns: 1fr; }
+        .analysis-grid { grid-template-columns: 1fr; }
+        .process-timeline::before { left: 15px; }
+        .timeline-marker { width: 30px; height: 30px; font-size: 0.9rem; }
+      }
+    </style>
+  </head>
+
+  <body class="music-page">
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <div class="navWrap">
+      <nav>
+        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+        <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
+        <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
+        <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
+        <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
+        <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
+      </nav>
+    </div>
+
+    <div class="page-container">
+      <div class="page-content">
+        <h1 class="page-title">Music</h1>
+        <p class="page-subtitle">Chords in Orbit · Original songs, Cantonese lyric analysis, and notes on music–language parallels</p>
+        
+        <!-- Original Compositions Section -->
+        <div class="content-section">
+          <h2>Original Compositions</h2>
+          <p>Demos and behind-the-score process. Exploring the intersections between music, language, and culture.</p>
+          
+          <div class="music-grid">
+            <div class="music-card">
+              <div class="music-icon">🌙</div>
+              <h3>月下独白</h3>
+              <p class="music-description">A contemplative piece exploring solitude and introspection under moonlight. Blends traditional Chinese musical elements with contemporary composition techniques.</p>
+              <div class="lyrics-preview">
+                <p>月光如水洒窗前</p>
+                <p>思绪如潮涌心田</p>
+                <p>独白在夜色中</p>
+                <p>寻找内心的声音</p>
+              </div>
+              <div class="audio-player">
+                <div class="play-button">▶</div>
+                <span>Demo: 30-60s preview</span>
+              </div>
+              <div class="music-tags">
+                <span class="tag">Cantonese Folk Acoustic</span>
+              </div>
+            </div>
+            
+            <div class="music-card">
+              <div class="music-icon">🎵</div>
+              <h3>语言的诗</h3>
+              <p class="music-description">An experimental multilingual piece that explores how different languages create unique musical textures and emotional landscapes.</p>
+              <div class="lyrics-preview">
+                <p>Words dance like notes</p>
+                <p>Sentences flow like melodies</p>
+                <p>Language becomes music</p>
+                <p>Music becomes language</p>
+              </div>
+              <div class="audio-player">
+                <div class="play-button">▶</div>
+                <span>Demo: 30-60s preview</span>
+              </div>
+              <div class="music-tags">
+                <span class="tag">Experimental Multilingual Electronic</span>
+              </div>
+            </div>
+            
+            <div class="music-card">
+              <div class="music-icon">🌸</div>
+              <h3>春日絮语</h3>
+              <p class="music-description">A gentle instrumental piece capturing the essence of spring through delicate melodies and harmonious arrangements.</p>
+              <div class="lyrics-preview">
+                <p>春风轻抚花瓣</p>
+                <p>细雨滋润大地</p>
+                <p>生命在音乐中</p>
+                <p>绽放最美的色彩</p>
+              </div>
+              <div class="audio-player">
+                <div class="play-button">▶</div>
+                <span>Demo: 30-60s preview</span>
+              </div>
+              <div class="music-tags">
+                <span class="tag">Spring Cantonese Instrumental</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cantonese Lyric Analysis Section -->
+        <div class="content-section">
+          <h2>Cantonese Lyric Analysis</h2>
+          <p>Exploring the linguistic patterns and cultural meanings in Cantonese lyrics.</p>
+          
+          <div class="analysis-grid">
+            <div class="analysis-card">
+              <h4>Phonetic Patterns in Cantonese Pop</h4>
+              <p>Analysis of how tonal patterns in Cantonese influence melodic composition and lyrical structure.</p>
+              <div class="analysis-example">
+                <div class="tone-pattern">
+                  <span class="tone">阴平</span>
+                  <span class="tone">阳平</span>
+                  <span class="tone">上声</span>
+                  <span class="tone">去声</span>
+                </div>
+                <p class="example-text">粤语歌词的声调与旋律关系</p>
+              </div>
+            </div>
+            
+            <div class="analysis-card">
+              <h4>Cultural Metaphors in Lyrics</h4>
+              <p>Exploring how cultural concepts are expressed through musical metaphors in Cantonese songs.</p>
+              <div class="metaphor-examples">
+                <div class="metaphor-item">
+                  <strong>月亮</strong> → 思念与孤独
+                </div>
+                <div class="metaphor-item">
+                  <strong>流水</strong> → 时间流逝
+                </div>
+                <div class="metaphor-item">
+                  <strong>花朵</strong> → 青春与美丽
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Music & Language Section -->
+        <div class="content-section">
+          <h2>Music & Language</h2>
+          <p>Notes on music–language parallels and how melody, rhythm, and lyrics can facilitate language learning.</p>
+          
+          <div class="music-highlight">
+            <h4>Prosody in Language Learning</h4>
+            <p>How musical rhythm and melody can enhance pronunciation and intonation in second language acquisition.</p>
+            <div class="learning-tips">
+              <div class="tip-item">
+                <span class="tip-icon">🎼</span>
+                <span>Use melody to remember tone patterns</span>
+              </div>
+              <div class="tip-item">
+                <span class="tip-icon">🥁</span>
+                <span>Practice rhythm for natural speech flow</span>
+              </div>
+              <div class="tip-item">
+                <span class="tip-icon">🎤</span>
+                <span>Sing lyrics to improve pronunciation</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="music-highlight">
+            <h4>Cross-linguistic Musical Patterns</h4>
+            <p>Comparative analysis of musical structures across different languages and cultures.</p>
+          </div>
+        </div>
+        
+        <!-- Behind the Score Section -->
+        <div class="content-section">
+          <h2>Behind the Score</h2>
+          <p>Process notes and technical insights from composition and arrangement work.</p>
+          
+          <div class="process-timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker">1</div>
+              <div class="timeline-content">
+                <h4>Concept & Inspiration</h4>
+                <p>Initial ideas and emotional themes that drive the composition process.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">2</div>
+              <div class="timeline-content">
+                <h4>Melody & Harmony</h4>
+                <p>Developing the core musical structure and harmonic progressions.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">3</div>
+              <div class="timeline-content">
+                <h4>Arrangement & Production</h4>
+                <p>Adding instrumentation, mixing, and final production touches.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

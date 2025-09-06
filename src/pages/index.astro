@@ -1,0 +1,815 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Sylvia Xiao 🌲｜肖子涵</title>
+
+    <!-- 字体：EB Garamond + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* ===== 色板：莫奈柔和彩 + 暗色适配 ===== */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --g1:#f6e6e4; --g2:#e2f0f5; --g3:#f4f6db; --g4:#e9f7ef; --g5:#f8ecf2;
+        --link:#5c6cff; --max:980px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --g1:#151821; --g2:#1e2432; --g3:#202634; --g4:#1a2229; --g5:#232033;
+          --link:#92a8ff;
+        }
+      }
+
+      *{ box-sizing:border-box }
+      html,body{ height:100% }
+      body{
+        margin:0; color:var(--fg);
+        font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+        /* 莫奈渐变 + 固定视差 */
+        background: linear-gradient(135deg,var(--g1) 0%,var(--g2) 25%,var(--g3) 50%,var(--g4) 75%,var(--g5) 100%);
+        background-attachment: fixed;
+      }
+      /* 细腻噪点 + 极淡角落色团（质感） */
+      .bg-noise{ position:fixed; inset:0; z-index:-1; pointer-events:none;
+        background-image:
+          radial-gradient(1100px 600px at 85% 70%, color-mix(in oklab,#d9e2ff 18%, transparent), transparent 70%),
+          radial-gradient(900px 500px at 12% 18%, color-mix(in oklab,#ffe7f4 16%, transparent), transparent 65%),
+          radial-gradient(1px 1px at 25% 35%, #00000014 1px, transparent 1px),
+          radial-gradient(1px 1px at 60% 70%, #00000014 1px, transparent 1px);
+        background-size: auto, auto, 180px 180px, 220px 220px;
+        mix-blend-mode: soft-light; opacity:.35;
+      }
+
+      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 80px; }
+
+      /* 顶部：标题 + 语言切换 */
+      .mast{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:26px 0 8px; }
+      .site-title{ font-family:"EB Garamond",serif; font-size:44px; line-height:1.05; margin:0; letter-spacing:.2px; }
+      .subtitle{ margin:6px 0 0; color:var(--muted); }
+      .lang{ border:1px solid var(--line); background:color-mix(in oklab,#fff 70%, transparent); color:var(--fg);
+        padding:.42rem .9rem; border-radius:10px; cursor:pointer; transition:.2s transform,.2s box-shadow; }
+      .lang:hover{ transform:translateY(-1px); box-shadow:0 6px 16px #00000014; }
+
+      /* 粘性导航 + 图标 */
+      .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); }
+      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px; }
+      nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative; }
+      nav a:hover{ color:var(--fg); }
+      
+      /* 导航栏不同主题色 */
+      nav a[href="/"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/research"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/tech"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#9333ea,#7c3aed); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/essays"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/music"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#ec4899,#db2777); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/polyglot"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#22c55e,#16a34a); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/reading"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/archive"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#6b7280,#4b5563); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+
+      /* Hero：左图右文（自适应） */
+      .hero{ display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:center; margin:22px 0 6px; }
+      .photo{ max-width:300px; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+        box-shadow:0 12px 28px rgba(0,0,0,.16), 0 1px 0 rgba(255,255,255,.06) inset;
+        background: color-mix(in oklab,#fff 6%, transparent); transform:translateZ(0); }
+      .photo img{ width:100%; display:block; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+      .photo:hover img{ transform:scale(1.03); }
+      h1{ font-family:"EB Garamond",serif; font-size:34px; margin:0 0 6px; }
+      .tagline{ font-size:20px; color:var(--muted); margin:0 0 10px; }
+      
+      /* 学术论文风格的引言框 */
+      .academic-quote {
+        margin: 1.5rem 0;
+        padding: 1.5rem 2rem;
+        border: 2px solid var(--line);
+        border-left: 4px solid #3b82f6;
+        background: color-mix(in oklab, #ffffff 95%, transparent);
+        border-radius: 0 8px 8px 0;
+        font-family: "EB Garamond", serif;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--fg);
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      
+      .academic-quote::before {
+        content: '"';
+        position: absolute;
+        top: -5px;
+        left: 15px;
+        font-size: 48px;
+        color: #3b82f6;
+        font-family: "EB Garamond", serif;
+        opacity: 0.3;
+      }
+      
+      .academic-quote::after {
+        content: '"';
+        position: absolute;
+        bottom: -15px;
+        right: 15px;
+        font-size: 48px;
+        color: #3b82f6;
+        font-family: "EB Garamond", serif;
+        opacity: 0.3;
+      }
+      
+      /* 深色模式下的学术引言框 */
+      @media (prefers-color-scheme: dark) {
+        .academic-quote {
+          background: color-mix(in oklab, #1f2937 95%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+          border-left-color: #60a5fa;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .academic-quote::before,
+        .academic-quote::after {
+          color: #60a5fa;
+        }
+      }
+      
+      .lead{ margin:8px 0 0; }
+      
+      /* 额外兴趣标签文字版 */
+      .additional-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin: 0.8rem 0 1.2rem;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      
+      .text-tag {
+        padding: 0.2rem 0.5rem;
+        background: color-mix(in oklab, #f8f9fa 60%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+      
+      .text-tag:hover {
+        background: color-mix(in oklab, #e9ecef 80%, transparent);
+        transform: translateY(-1px);
+      }
+      
+      /* 深色模式下的文字标签 */
+      @media (prefers-color-scheme: dark) {
+        .text-tag {
+          background: color-mix(in oklab, #374151 60%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .text-tag:hover {
+          background: color-mix(in oklab, #4b5563 80%, transparent);
+        }
+      }
+
+      /* 兴趣胶囊 - 彩虹色渐变效果 */
+      .pills{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.4rem 0 1rem; }
+      .pill{ padding:.3rem .7rem; border-radius:999px; border:1px solid var(--line); font-weight:600;
+        background:color-mix(in oklab,#fff 60%, transparent); 
+        transition:.3s transform,.3s box-shadow,.3s border-color,.3s background; 
+        position:relative; overflow:hidden; }
+      
+      /* Creative Computing - 粉色冰雕质感 */
+      .pill.cc{ 
+        background: rgba(255, 182, 193, 0.15);
+        color: #d63384;
+        border: 1px solid rgba(255, 182, 193, 0.25);
+        box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2), 
+                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      }
+      .pill.cc:hover{ 
+        transform:translateY(-1px) scale(1.02); 
+        background: rgba(255, 182, 193, 0.25);
+        box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3), 
+                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+      
+      /* Computational Linguistics - 紫色冰雕质感 */
+      .pill.cl{ 
+        background: rgba(196, 181, 253, 0.15);
+        color: #6f42c1;
+        border: 1px solid rgba(196, 181, 253, 0.25);
+        box-shadow: 0 2px 8px rgba(196, 181, 253, 0.2), 
+                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      }
+      .pill.cl:hover{ 
+        transform:translateY(-1px) scale(1.02); 
+        background: rgba(196, 181, 253, 0.25);
+        box-shadow: 0 4px 12px rgba(196, 181, 253, 0.3), 
+                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+      
+      /* Psycholinguistics - 蓝色冰雕质感 */
+      .pill.pl{ 
+        background: rgba(147, 197, 253, 0.15);
+        color: #2563eb;
+        border: 1px solid rgba(147, 197, 253, 0.25);
+        box-shadow: 0 2px 8px rgba(147, 197, 253, 0.2), 
+                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      }
+      .pill.pl:hover{ 
+        transform:translateY(-1px) scale(1.02); 
+        background: rgba(147, 197, 253, 0.25);
+        box-shadow: 0 4px 12px rgba(147, 197, 253, 0.3), 
+                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+      
+      /* NLP - 绿色冰雕质感 */
+      .pill.nlp{ 
+        background: rgba(134, 239, 172, 0.15);
+        color: #16a34a;
+        border: 1px solid rgba(134, 239, 172, 0.25);
+        box-shadow: 0 2px 8px rgba(134, 239, 172, 0.2), 
+                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      }
+      .pill.nlp:hover{ 
+        transform:translateY(-1px) scale(1.02); 
+        background: rgba(134, 239, 172, 0.25);
+        box-shadow: 0 4px 12px rgba(134, 239, 172, 0.3), 
+                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+      
+      /* Music & Language - 黄色冰雕质感 */
+      .pill.ml{ 
+        background: rgba(254, 240, 138, 0.15);
+        color: #ca8a04;
+        border: 1px solid rgba(254, 240, 138, 0.25);
+        box-shadow: 0 2px 8px rgba(254, 240, 138, 0.2), 
+                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      }
+      .pill.ml:hover{ 
+        transform:translateY(-1px) scale(1.02); 
+        background: rgba(254, 240, 138, 0.25);
+        box-shadow: 0 4px 12px rgba(254, 240, 138, 0.3), 
+                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      }
+
+      /* 三卡片 - 不同主题色 */
+      .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0 0; }
+      .card{ border:1px solid var(--line); border-radius:14px; padding:16px; text-decoration:none; color:var(--fg);
+        background:color-mix(in oklab,#fff 65%, transparent); transition:.22s transform,.22s box-shadow,.22s border-color; }
+      
+      /* Publications卡片 - 学术蓝 */
+      .card[href="/research"]:hover{ 
+        transform:translateY(-2px); 
+        box-shadow:0 10px 22px rgba(59, 130, 246, 0.15); 
+        border-color:#3b82f6;
+        background:color-mix(in oklab,#dbeafe 20%, transparent);
+      }
+      
+      /* Projects卡片 - 创意紫 */
+      .card[href="/projects"]:hover{ 
+        transform:translateY(-2px); 
+        box-shadow:0 10px 22px rgba(147, 51, 234, 0.15); 
+        border-color:#9333ea;
+        background:color-mix(in oklab,#e9d5ff 20%, transparent);
+      }
+      
+      /* CV卡片 - 专业绿 */
+      .card[href="/CV_Sylvia_Xiao.pdf"]:hover{ 
+        transform:translateY(-2px); 
+        box-shadow:0 10px 22px rgba(34, 197, 94, 0.15); 
+        border-color:#22c55e;
+        background:color-mix(in oklab,#dcfce7 20%, transparent);
+      }
+      
+      .card h3{ margin:0 0 6px; font-size:1.05rem; }
+
+      footer{ margin-top:32px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); }
+
+      /* 像素动画区域 - 固定在左下角 */
+      .pixel-animation {
+        width: 80px;
+        height: 60px;
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 100;
+        cursor: pointer;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid var(--line);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      .pixel-animation:hover {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      .pixel-animation:active {
+        transform: translateY(0);
+      }
+      
+      /* Sylvia角色 - 缩小适应左下角 */
+      .sylvia-sprite {
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 32px;
+        height: 32px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNCIgeT0iMiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjEwIiBmaWxsPSIjMmMzZTUwIi8+CjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjgiIGZpbGw9IiMyYzNlNTAiLz4KPHJlY3QgeD0iMjciIHk9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjgiIGZpbGw9IiMyYzNlNTAiLz4KPHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEyIiBmaWxsPSIjZmRiY2I0Ii8+CjxyZWN0IHg9IjkiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSIzIiBmaWxsPSIjMzQ0OTVlIiBzdHJva2U9IiMyYzNlNTAiIHN0cm9rZS13aWR0aD0iMSIvPgo8cmVjdCB4PSIxNSIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjMiIGZpbGw9IiMzNDQ5NWUiIHN0cm9rZT0iIzJjM2U1MCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxyZWN0IHg9IjEzIiB5PSIxMSIgd2lkdGg9IjIiIGhlaWdodD0iMSIgZmlsbD0iIzJjM2U1MCIvPgo8Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSIxIiBmaWxsPSIjMmMzZTUwIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iMTEiIHI9IjEiIGZpbGw9IiMyYzNlNTAiLz4KPHJlY3QgeD0iMTQiIHk9IjE2IiB3aWR0aD0iNCIgaGVpZ2h0PSIxIiBmaWxsPSIjZTc0YzNjIi8+CjxyZWN0IHg9IjYiIHk9IjIwIiB3aWR0aD0iMjAiIGhlaWdodD0iOCIgZmlsbD0iI2ZmZmZmZiIvPgo8cmVjdCB4PSI2IiB5PSIyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjEiIGZpbGw9IiNiZGMzYzciLz4KPHJlY3QgeD0iMiIgeT0iMjIiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIGZpbGw9IiNmZGJjYjQiLz4KPHJlY3QgeD0iMjYiIHk9IjIyIiB3aWR0aD0iNCIgaGVpZ2h0PSI2IiBmaWxsPSIjZmRiY2I0Ii8+CjxyZWN0IHg9IjI4IiB5PSIyNCIgd2lkdGg9IjMiIGhlaWdodD0iNCIgZmlsbD0iIzM0OThkYiIvPgo8cmVjdCB4PSIyOSIgeT0iMjMiIHdpZHRoPSIxIiBoZWlnaHQ9IjIiIGZpbGw9IiMyOTgwYnkiLz4KPC9zdmc+Cg==');
+        background-size: 32px 32px;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        transition: transform 0.3s ease;
+      }
+      
+      /* Tree角色 - 缩小适应左下角 */
+      .tree-sprite {
+        position: absolute;
+        right: 6px;
+        bottom: 6px;
+        width: 18px;
+        height: 18px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGVsbGlwc2UgY3g9IjkiIGN5PSI0IiByeD0iNCIgcng9IjIiIGZpbGw9IiMyN2FlNjAiLz4KPGVsbGlwc2UgY3g9IjkiIGN5PSI5IiByeD0iNyIgcnk9IjUiIGZpbGw9IiNmZmZmZmYiLz4KPGNpcmNsZSBjeD0iNyIgY3k9IjciIHI9IjEiIGZpbGw9IiMyYzNlNTAiLz4KPGNpcmNsZSBjeD0iMTEiIGN5PSI3IiByPSIxIiBmaWxsPSIjMmMzZTUwIi8+CjxjaXJjbGUgY3g9IjUiIGN5PSI5IiByPSIxIiBmaWxsPSIjZmY2YjlkIi8+CjxjaXJjbGUgY3g9IjEzIiBjeT0iOSIgcj0iMSIgZmlsbD0iI2ZmNmI5ZCIvPgo8cmVjdCB4PSI4IiB5PSIxMCIgd2lkdGg9IjIiIGhlaWdodD0iMC41IiBmaWxsPSIjMmMzZTUwIi8+Cjwvc3ZnPgo=');
+        background-size: 18px 18px;
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+        transition: transform 0.3s ease;
+      }
+      
+      /* 水滴效果 - 调整位置适应小尺寸 */
+      .water-drop {
+        position: absolute;
+        width: 2px;
+        height: 3px;
+        background: #3498db;
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 0.6s ease;
+        left: 25px;
+        top: 15px;
+      }
+      
+      /* 浇水动画 */
+      .pixel-animation.watering .sylvia-sprite {
+        animation: wateringMotion 1.5s ease-in-out;
+      }
+      
+      .pixel-animation.watering .water-drop {
+        opacity: 1;
+        animation: waterFall 1.5s ease-in-out;
+      }
+      
+      .pixel-animation.watering .tree-sprite {
+        animation: treeHappy 1.5s ease-in-out 0.5s;
+      }
+      
+      @keyframes wateringMotion {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(15deg); }
+        50% { transform: rotate(30deg); }
+        75% { transform: rotate(15deg); }
+        100% { transform: rotate(0deg); }
+      }
+      
+      @keyframes waterFall {
+        0% { 
+          top: 15px; 
+          opacity: 1; 
+          transform: scale(1);
+        }
+        50% { 
+          top: 25px; 
+          opacity: 0.7; 
+          transform: scale(0.8);
+        }
+        100% { 
+          top: 35px; 
+          opacity: 0; 
+          transform: scale(0.5);
+        }
+      }
+      
+      @keyframes treeHappy {
+        0% { transform: scale(1); }
+        25% { transform: scale(1.1); }
+        50% { transform: scale(1.15); }
+        75% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+      
+      /* 提示文字 */
+      .animation-hint {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+        color: var(--muted);
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .pixel-animation:hover .animation-hint {
+        opacity: 1;
+      }
+
+      @media (max-width:900px){
+        .hero{ grid-template-columns:1fr } 
+        .photo{ margin:auto } 
+        /* 移动端调整像素动画位置 */
+        .pixel-animation {
+          bottom: 10px;
+          left: 10px;
+          width: 70px;
+          height: 50px;
+        }
+        .sylvia-sprite {
+          width: 28px;
+          height: 28px;
+          left: 5px;
+          top: 5px;
+        }
+        .tree-sprite {
+          width: 16px;
+          height: 16px;
+          right: 5px;
+          bottom: 5px;
+        }
+        .water-drop {
+          left: 22px;
+          top: 12px;
+        }
+      }
+      /* 深色模式下的彩虹胶囊效果 */
+      @media (prefers-color-scheme: dark) {
+        .pill.cc{ 
+          background: rgba(255, 182, 193, 0.1);
+          color: #f8bbd9;
+          border: 1px solid rgba(255, 182, 193, 0.2);
+          box-shadow: 0 2px 8px rgba(255, 182, 193, 0.15), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(10px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.cc:hover{ 
+          background: rgba(255, 182, 193, 0.15);
+          box-shadow: 0 4px 12px rgba(255, 182, 193, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.cl{ 
+          background: rgba(196, 181, 253, 0.1);
+          color: #c4b5fd;
+          border: 1px solid rgba(196, 181, 253, 0.2);
+          box-shadow: 0 2px 8px rgba(196, 181, 253, 0.15), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(10px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.cl:hover{ 
+          background: rgba(196, 181, 253, 0.15);
+          box-shadow: 0 4px 12px rgba(196, 181, 253, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.pl{ 
+          background: rgba(147, 197, 253, 0.1);
+          color: #93c5fd;
+          border: 1px solid rgba(147, 197, 253, 0.2);
+          box-shadow: 0 2px 8px rgba(147, 197, 253, 0.15), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(10px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.pl:hover{ 
+          background: rgba(147, 197, 253, 0.15);
+          box-shadow: 0 4px 12px rgba(147, 197, 253, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.nlp{ 
+          background: rgba(134, 239, 172, 0.1);
+          color: #86efac;
+          border: 1px solid rgba(134, 239, 172, 0.2);
+          box-shadow: 0 2px 8px rgba(134, 239, 172, 0.15), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(10px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.nlp:hover{ 
+          background: rgba(134, 239, 172, 0.15);
+          box-shadow: 0 4px 12px rgba(134, 239, 172, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.ml{ 
+          background: rgba(254, 240, 138, 0.1);
+          color: #fef08a;
+          border: 1px solid rgba(254, 240, 138, 0.2);
+          box-shadow: 0 2px 8px rgba(254, 240, 138, 0.15), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(10px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.ml:hover{ 
+          background: rgba(254, 240, 138, 0.15);
+          box-shadow: 0 4px 12px rgba(254, 240, 138, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+      }
+      
+      @media (max-width:720px){ 
+        .site-title{ font-size:36px; } 
+        .tagline{ font-size:18px; } 
+        .cards{ grid-template-columns:1fr; } 
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-noise"></div>
+
+    <!-- SVG icons（一次定义，处处可用） -->
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <div class="wrap">
+      <!-- 标题 + 语言切换 -->
+      <div class="mast">
+        <div>
+          <h1 class="site-title" id="title">Sylvia Xiao</h1>
+          <p class="subtitle" id="subtitle">肖子涵 · Sylvia / Seluna</p>
+        </div>
+        <button class="lang" id="langBtn">中文</button>
+      </div>
+
+      <!-- 粘性导航 -->
+      <div class="navWrap">
+        <nav>
+          <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+          <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+          <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
+          <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+          <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
+          <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
+          <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
+          <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
+        </nav>
+      </div>
+
+      <!-- Hero：头像 + 文案 + 兴趣胶囊 -->
+    	<section class="hero">
+        <div class="photo"><img src="/imgs/sylviaxiao.jpg" alt="Sylvia Xiao portrait" /></div>
+        <div>
+          <h1 id="hello">Hi, I'm Sylvia 🌲</h1>
+          <div class="pills">
+            <span class="pill cc">Creative Computing</span>
+            <span class="pill cl">Computational Linguistics</span>
+            <span class="pill pl">Psycholinguistics</span>
+            <span class="pill nlp">NLP</span>
+            <span class="pill ml">Music &amp; Language</span>
+ 			</div>
+          
+          <!-- 额外的兴趣标签文字版 -->
+          <div class="additional-tags">
+            <span class="text-tag">Linguistics</span>
+            <span class="text-tag">Psycholinguistics</span>
+            <span class="text-tag">NLP</span>
+            <span class="text-tag">Computational Linguistics</span>
+            <span class="text-tag">HCI</span>
+            <span class="text-tag">Cantonese</span>
+            <span class="text-tag">Gender Studies</span>
+            <span class="text-tag">Philosophy</span>
+            <span class="text-tag">Music</span>
+            <span class="text-tag">Songwriting</span>
+            <span class="text-tag">Music & Language</span>
+            <span class="text-tag">Nonfiction</span>
+            <span class="text-tag">Sci-Fi</span>
+            <span class="text-tag">Travel</span>
+            <span class="text-tag">Education</span>
+            <span class="text-tag">Japanese</span>
+            <span class="text-tag">German</span>
+          </div>
+          
+          <div id="lead" class="academic-quote">
+            I study how minds shape language — and how machines learn it. Interests include creative computing
+            and the intersections between music, language, and culture.
+          </div>
+  			</div>
+		</section>
+
+      <!-- 三张直达卡片 -->
+      <section class="cards">
+        <a class="card" href="/research">
+          <h3 id="pubs">Publications</h3>
+          <div class="muted" id="pubsNote">Papers, posters, talks (coming soon)</div>
+        </a>
+        <a class="card" href="/projects">
+          <h3 id="projs">Projects</h3>
+          <div class="muted" id="projsNote">Research projects and collaborations</div>
+        </a>
+        <a class="card" href="/CV_Sylvia_Xiao.pdf" target="_blank" rel="noopener">
+          <h3 id="cv">CV</h3>
+          <div class="muted" id="cvNote">Download PDF</div>
+        </a>
+      </section>
+
+      <footer>
+        © Sylvia Xiao · Contact: <a href="mailto:selunaxiao@gmail.com">selunaxiao@gmail.com</a> ·
+        <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a> /
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a> /
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </footer>
+    </div>
+
+    <!-- 像素动画 - 固定在左下角 -->
+    <div class="pixel-animation" id="pixelAnimation">
+      <div class="sylvia-sprite"></div>
+      <div class="tree-sprite"></div>
+      <div class="water-drop"></div>
+      <div class="animation-hint" id="animationHint">Click to water! 🌱</div>
+    </div>
+
+    <!-- 语言切换 + 像素动画交互 -->
+    <script type="module">
+      // 简单选择器
+      const $ = (s) => document.querySelector(s);
+
+      const btn = document.getElementById('langBtn');
+      let en = true;
+
+      // 像素动画交互
+      const pixelAnimation = document.getElementById('pixelAnimation');
+      const animationHint = document.getElementById('animationHint');
+      let isAnimating = false;
+
+      // 浇水动画函数
+      function startWateringAnimation() {
+        if (isAnimating) return;
+        
+        isAnimating = true;
+        pixelAnimation.classList.add('watering');
+        
+        // 更新提示文字
+        if (en) {
+          animationHint.textContent = 'Watering... 💧';
+        } else {
+          animationHint.textContent = '浇水中... 💧';
+        }
+        
+        // 动画结束后重置
+        setTimeout(() => {
+          pixelAnimation.classList.remove('watering');
+          isAnimating = false;
+          
+          // 恢复提示文字
+          if (en) {
+            animationHint.textContent = 'Click to water! 🌱';
+          } else {
+            animationHint.textContent = '点击浇水！🌱';
+          }
+        }, 1500);
+      }
+
+      function setEN() {
+        document.documentElement.lang = 'en';
+        $('#title').textContent = 'Sylvia Xiao';
+        $('#subtitle').textContent = 'Xiao Zihan · Sylvia / Seluna';
+        $('#hello').textContent = 'Hi, I'm Sylvia 🌲';
+        $('#lead').textContent =
+          'I study how minds shape language — and how machines learn it. Interests include creative computing and the intersections between music, language, and culture.';
+        $('#pubs').textContent = 'Publications';
+        $('#pubsNote').textContent = 'Papers, posters, talks (coming soon)';
+        $('#projs').textContent = 'Projects';
+        $('#projsNote').textContent = 'Research projects and collaborations';
+        $('#cv').textContent = 'CV';
+        $('#cvNote').textContent = 'Download PDF';
+        btn.textContent = '中文';
+        animationHint.textContent = 'Click to water! 🌱';
+      }
+
+      function setZH() {
+        document.documentElement.lang = 'zh';
+        $('#title').textContent = '肖子涵 Sylvia Xiao';
+        $('#subtitle').textContent = '语言与心智 · 创意计算 · 音乐与语言';
+        $('#hello').textContent = '你好，我是肖子涵 🌲';
+        $('#lead').textContent =
+          '我研究心智如何塑造语言，以及机器如何学习语言；关注创意计算与音乐、语言、文化的交叉。';
+        $('#pubs').textContent = '学术发表';
+        $('#pubsNote').textContent = '论文、海报、报告（敬请期待）';
+        $('#projs').textContent = '项目';
+        $('#projsNote').textContent = '研究项目与合作';
+        $('#cv').textContent = '简历';
+        $('#cvNote').textContent = '下载 PDF';
+        btn.textContent = 'EN';
+        animationHint.textContent = '点击浇水！🌱';
+      }
+
+      // 初始英文
+      setEN();
+
+      // 语言切换
+      btn?.addEventListener('click', () => {
+        en = !en;
+        if (en) setEN(); else setZH();
+      });
+
+      // 像素动画点击事件
+      pixelAnimation?.addEventListener('click', startWateringAnimation);
+      
+      // 键盘支持（空格键触发浇水）
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && document.activeElement === pixelAnimation) {
+          e.preventDefault();
+          startWateringAnimation();
+        }
+      });
+      
+      // 让像素动画区域可以获得焦点
+      pixelAnimation?.setAttribute('tabindex', '0');
+      pixelAnimation?.setAttribute('role', 'button');
+      pixelAnimation?.setAttribute('aria-label', 'Click to water the tree');
+    </script>
+  </body>
+</html>

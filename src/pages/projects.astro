@@ -1,0 +1,216 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Projects | Sylvia Xiao</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0b0c10; --fg:#e8e9ed; --muted:#a7abb7; --link:#7b7fff; --line:#ffffff20;
+        --max: 960px; --pad: 20px;
+      }
+      @media (prefers-color-scheme: light){
+        :root{ --bg:#ffffff; --fg:#1e2228; --muted:#5c6575; --line:#00000014; }
+      }
+      *{ box-sizing:border-box }
+      body{ margin:0; background:var(--bg); color:var(--fg); font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
+      a{ color:var(--link); text-decoration:none } a:hover{ text-decoration:underline }
+
+      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 64px; }
+
+      /* 顶部：大标题 + 语言切换 */
+      .masthead{ padding:28px 0 10px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+      .site-title{ font-family:"EB Garamond", serif; font-size:44px; line-height:1.05; letter-spacing:.3px; margin:0 }
+      .subtitle{ margin:6px 0 0; color:var(--muted); font-size:18px; }
+      .lang-btn{
+        border:1px solid var(--line); background:transparent; color:var(--fg);
+        padding:.38rem .8rem; border-radius:8px; cursor:pointer;
+      }
+
+      /* 固定导航 */
+      .nav-wrap{
+        position:sticky; top:0; z-index:50;
+        background:color-mix(in oklab, var(--bg) 92%, transparent);
+        backdrop-filter: saturate(120%) blur(6px);
+        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+      }
+      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:14px }
+      nav a{ color:var(--muted); font-weight:500; }
+      nav a:hover{ color:var(--fg); text-decoration:none }
+
+      /* 页面内容 */
+      .page-header{ margin:32px 0 24px; }
+      .page-title{ font-family:"EB Garamond", serif; font-size:36px; margin:0 0 8px; letter-spacing:.3px; }
+      .page-subtitle{ font-size:18px; color:var(--muted); margin:0 0 16px; }
+      .content{ line-height:1.7; }
+      .content h2{ font-family:"EB Garamond", serif; font-size:24px; margin:32px 0 16px; }
+      .content h3{ font-size:18px; margin:24px 0 12px; font-weight:600; }
+      .content p{ margin:0 0 16px; }
+      .content ul{ margin:0 0 16px; padding-left:20px; }
+      .content li{ margin:0 0 8px; }
+
+      /* 标签样式 */
+      .tags{ display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; }
+      .tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        background: linear-gradient(135deg, rgba(54, 162, 235, 0.2), rgba(54, 162, 235, 0.1));
+        color: #36a2eb;
+      }
+
+      /* 项目卡片 */
+      .project-card{ 
+        border:1px solid var(--line); 
+        border-radius:12px; 
+        padding:20px; 
+        margin:16px 0;
+        transition: all 0.3s ease;
+      }
+      .project-card:hover{ 
+        border-color:#b6b6ff66; 
+        background:#b6b6ff0f;
+        transform: translateY(-2px);
+      }
+      .project-card h3{ margin:0 0 8px; font-size:1.2rem; font-weight:600; }
+      .project-card p{ margin:0 0 12px; color:var(--muted); }
+      .project-card .category{ font-size:14px; color:var(--muted); }
+
+      footer{ margin-top:32px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted) }
+
+      @media (max-width:680px){
+        .site-title{ font-size:36px }
+        .page-title{ font-size:28px }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- 顶部：标题 + 中文/EN 切换 -->
+      <div class="masthead">
+        <div>
+          <h1 class="site-title">Sylvia Xiao</h1>
+          <p class="subtitle">肖子涵 · Sylvia / Seluna</p>
+        </div>
+        <button id="langBtn" class="lang-btn">中文</button>
+      </div>
+
+      <!-- 固定导航 -->
+      <div class="nav-wrap">
+        <nav>
+          <a href="/">Home</a>
+          <a href="/research">Research</a>
+          <a href="/tech">Tech</a>
+          <a href="/essays">Essays</a>
+          <a href="/music">Music</a>
+          <a href="/polyglot">Polyglot</a>
+          <a href="/reading">Reading</a>
+          <a href="/archive">Archive</a>
+        </nav>
+      </div>
+
+      <!-- 页面内容 -->
+      <div class="page-header">
+        <h1 id="pageTitle" class="page-title">Projects & Collabs</h1>
+        <p id="pageSubtitle" class="page-subtitle">Cross-disciplinary masterpieces overview</p>
+        <div class="tags">
+          <span class="tag">Code</span>
+          <span class="tag">Posters</span>
+          <span class="tag">Audio Demo</span>
+          <span class="tag">Slides</span>
+        </div>
+      </div>
+
+      <div class="content">
+        <p id="intro">
+          Cross-disciplinary masterpieces overview (code, posters, audio demos, slides).
+        </p>
+
+        <h2 id="projectsTitle">Featured Projects</h2>
+        
+        <div class="project-card">
+          <h3 id="project1Title">Coming Soon</h3>
+          <div class="category" id="project1Category">Cross-disciplinary collaborations</div>
+          <p id="project1Desc">Code, posters, audio demos, and presentation slides</p>
+        </div>
+
+        <div class="project-card">
+          <h3 id="project2Title">Linguistics Visualization</h3>
+          <div class="category" id="project2Category">Data Visualization</div>
+          <p id="project2Desc">Interactive tools for exploring language patterns</p>
+        </div>
+
+        <div class="project-card">
+          <h3 id="project3Title">Music & Language Analysis</h3>
+          <div class="category" id="project3Category">Research Tools</div>
+          <p id="project3Desc">Tools for analyzing music-language connections</p>
+        </div>
+      </div>
+
+      <footer>
+        © Sylvia Xiao · 
+        Contact: <a href="mailto:selunaxiao@gmail.com">selunaxiao@gmail.com</a> · 
+        <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a> /
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a> /
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </footer>
+    </div>
+
+    <!-- 中英切换 -->
+    <script>
+      const btn = document.getElementById('langBtn');
+      let en = true;
+      btn.addEventListener('click', () => {
+        en = !en;
+        if(!en){
+          document.documentElement.lang = 'zh';
+          document.querySelector('.site-title').textContent = '肖子涵 Sylvia Xiao';
+          document.querySelector('.subtitle').textContent = '计算语言学 · 心理语言学 · 自然语言处理 · 音乐与语言';
+          document.getElementById('pageTitle').textContent = '项目与合作';
+          document.getElementById('pageSubtitle').textContent = '跨界代表作总览';
+          document.getElementById('intro').textContent = '跨界代表作总览（代码、海报、音频演示、幻灯片）。';
+          document.getElementById('projectsTitle').textContent = '精选项目';
+          document.getElementById('project1Title').textContent = '敬请期待';
+          document.getElementById('project1Category').textContent = '跨界合作';
+          document.getElementById('project1Desc').textContent = '代码、海报、音频演示与演示幻灯片';
+          document.getElementById('project2Title').textContent = '语言学可视化';
+          document.getElementById('project2Category').textContent = '数据可视化';
+          document.getElementById('project2Desc').textContent = '探索语言模式的交互式工具';
+          document.getElementById('project3Title').textContent = '音乐与语言分析';
+          document.getElementById('project3Category').textContent = '研究工具';
+          document.getElementById('project3Desc').textContent = '分析音乐-语言连接的工具';
+          btn.textContent = 'EN';
+        }else{
+          document.documentElement.lang = 'en';
+          document.querySelector('.site-title').textContent = 'Sylvia Xiao';
+          document.querySelector('.subtitle').textContent = 'Xiao Zihan · Sylvia / Seluna';
+          document.getElementById('pageTitle').textContent = 'Projects & Collabs';
+          document.getElementById('pageSubtitle').textContent = 'Cross-disciplinary masterpieces overview';
+          document.getElementById('intro').textContent = 'Cross-disciplinary masterpieces overview (code, posters, audio demos, slides).';
+          document.getElementById('projectsTitle').textContent = 'Featured Projects';
+          document.getElementById('project1Title').textContent = 'Coming Soon';
+          document.getElementById('project1Category').textContent = 'Cross-disciplinary collaborations';
+          document.getElementById('project1Desc').textContent = 'Code, posters, audio demos, and presentation slides';
+          document.getElementById('project2Title').textContent = 'Linguistics Visualization';
+          document.getElementById('project2Category').textContent = 'Data Visualization';
+          document.getElementById('project2Desc').textContent = 'Interactive tools for exploring language patterns';
+          document.getElementById('project3Title').textContent = 'Music & Language Analysis';
+          document.getElementById('project3Category').textContent = 'Research Tools';
+          document.getElementById('project3Desc').textContent = 'Tools for analyzing music-language connections';
+          btn.textContent = '中文';
+        }
+      });
+    </script>
+  </body>
+</html>
