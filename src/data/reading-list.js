@@ -72,3 +72,4 @@ export function addNewBook(bookData) {
   readingData.books.push(newBook);
   return newBook;
 }
+

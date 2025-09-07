@@ -13,7 +13,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Sylvia Xiao 🌲｜肖子涵</title>
+    <title>Sylvia Zihan Xiao 🌙 | Computational Linguistics × Creative Computing × Storytelling</title>
 
     <!-- 字体：EB Garamond + Inter -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -57,7 +57,102 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
       /* 顶部：标题 + 语言切换 */
       .mast{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:26px 0 8px; }
-      .site-title{ font-family:"EB Garamond",serif; font-size:44px; line-height:1.05; margin:0; letter-spacing:.2px; }
+      
+      /* 第一行：主标题 */
+      .site-title{ 
+        font-family:"EB Garamond",serif; 
+        font-size:44px; 
+        line-height:1.05; 
+        margin:0; 
+        letter-spacing:.2px; 
+      }
+      
+      /* 中文名字样式 */
+      .chinese-name{ 
+        font-size:42px; 
+        color:#666; 
+        font-family:"STSong", "华文中宋", "SimSun", serif;
+        font-weight:400;
+        margin-left:8px;
+      }
+      
+      /* 第二行：简介标签 */
+      .intro-tag{
+        display:inline-block;
+        background:rgba(255,255,255,0.15);
+        backdrop-filter:blur(10px);
+        padding:8px 16px;
+        border-radius:20px;
+        border:1px solid rgba(255,255,255,0.2);
+        font-family:"EB Garamond",serif;
+        font-size:18px;
+        color:var(--fg);
+        margin:12px 0;
+        text-align:center;
+        line-height:1.4;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      
+      /* 第三行：艺术人格 */
+      .artistic-persona{
+        font-family:"EB Garamond",serif;
+        font-size:39px;
+        margin:16px 0 0;
+        line-height:1.3;
+      }
+      
+      .persona-label{
+        color:#666;
+        font-weight:400;
+      }
+      
+      .seluna-name{
+        color:#2d5016;
+        font-weight:700;
+        margin:0 4px;
+      }
+      
+      /* LUNA 方框样式 */
+      .luna-box{
+        display:inline-block;
+        background:linear-gradient(90deg,
+          #f8b7d8 0%,   /* 粉 */
+          #8db6ff 16%,  /* 蓝 */
+          #8fe3c4 32%,  /* 绿 */
+          #f6e27a 48%,  /* 黄 */
+          #f59f50 64%,  /* 橙 */
+          #c7a6ee 80%,  /* 紫 */
+          #f8b7d8 100%  /* 回环 */
+        );
+        background-size:300% 100%;
+        animation:lunaFlow 20s linear infinite;
+        color:#fff;
+        font-weight:700;
+        font-family:"EB Garamond",serif;
+        padding:4px 8px;
+        border-radius:4px;
+        text-shadow:0 1px 2px rgba(0,0,0,0.3);
+        margin-left:4px;
+      }
+      
+      /* LUNA 流光动画 */
+      @keyframes lunaFlow{
+        0%{ background-position:0% 50%; }
+        100%{ background-position:300% 50%; }
+      }
+      
+      /* 无动画偏好 */
+      @media (prefers-reduced-motion: reduce){
+        .luna-box{
+          animation:none;
+          background:linear-gradient(90deg,
+            #d6c8f0 0%, #b7cdee 25%, #c8e4dc 50%, #f3e5b5 75%, #e9c4d2 100%
+          );
+        }
+      }
+      
       .subtitle{ margin:6px 0 0; color:var(--muted); }
       .lang{ border:1px solid var(--line); background:color-mix(in oklab,#fff 70%, transparent); color:var(--fg);
         padding:.42rem .9rem; border-radius:10px; cursor:pointer; transition:.2s transform,.2s box-shadow; }
@@ -99,6 +194,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       nav a[href="/reading"]::after{ 
         content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
         background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/media"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a[href="/speaking"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#22c55e,#16a34a); transform:scaleX(0); transform-origin:left; transition:.25s; 
       }
       nav a[href="/archive"]::after{ 
         content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
@@ -342,6 +445,204 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       
       .card h3{ margin:0 0 6px; font-size:1.05rem; }
 
+      /* Latest Updates section - iOS风格 */
+      .section{ padding:2rem 0; }
+      .section h2{ margin:0 0 1rem; font-family:"EB Garamond",serif; font-size:1.5rem; }
+      
+      /* iOS风格滚动容器 */
+      .updates-container {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          0 1px 0 rgba(255, 255, 255, 0.5) inset,
+          0 -1px 0 rgba(0, 0, 0, 0.05) inset;
+        overflow: hidden;
+        position: relative;
+        max-height: 300px;
+        transition: all 0.3s ease;
+      }
+      
+      /* iOS风格窗口标题栏 */
+      .updates-header {
+        background: rgba(248, 248, 248, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      
+      /* iOS风格窗口控制按钮 */
+      .window-controls {
+        display: flex;
+        gap: 6px;
+      }
+      
+      .window-btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+      }
+      
+      .window-btn.close { background: #ff5f57; }
+      .window-btn.minimize { background: #ffbd2e; }
+      .window-btn.maximize { background: #28ca42; }
+      
+      .window-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-left: 8px;
+      }
+      
+      /* iOS风格滚动内容 */
+      .updates-content {
+        padding: 16px;
+        max-height: 240px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+      }
+      
+      .updates-content::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .updates-content::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      .updates-content::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+      }
+      
+      .updates-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+      
+      .updates-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      
+      .update-item {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        transition: background-color 0.2s ease;
+      }
+      
+      .update-item:last-child {
+        border-bottom: none;
+      }
+      
+      .update-item:hover {
+        background: rgba(0, 0, 0, 0.02);
+        margin: 0 -16px;
+        padding: 12px 16px;
+        border-radius: 8px;
+      }
+      
+      .update-date {
+        font-size: 12px;
+        font-weight: 600;
+        color: #007aff;
+        background: rgba(0, 122, 255, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      
+      .update-text {
+        color: #1d1d1f;
+        font-size: 14px;
+        line-height: 1.4;
+        flex: 1;
+      }
+      
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .chinese-name {
+          color: #999;
+        }
+        
+        .intro-tag {
+          background: rgba(28, 28, 30, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .persona-label {
+          color: #999;
+        }
+        
+        .seluna-name {
+          color: #68d391;
+        }
+        
+        .luna-box {
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .updates-container {
+          background: rgba(28, 28, 30, 0.85);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 1px 0 rgba(255, 255, 255, 0.1) inset,
+            0 -1px 0 rgba(0, 0, 0, 0.2) inset;
+        }
+        
+        .updates-header {
+          background: rgba(44, 44, 46, 0.8);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .window-title {
+          color: #f2f2f7;
+        }
+        
+        .update-item {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .update-item:hover {
+          background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .update-date {
+          color: #64d2ff;
+          background: rgba(100, 210, 255, 0.15);
+        }
+        
+        .update-text {
+          color: #f2f2f7;
+        }
+        
+        .updates-content::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .updates-content::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+      }
+
       footer{ margin-top:32px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); }
 
       /* 像素动画区域 - 固定在左下角 */
@@ -481,6 +782,36 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       @media (max-width:900px){
         .hero{ grid-template-columns:1fr } 
         .photo{ margin:auto } 
+        
+        /* 移动端iOS风格更新 */
+        .updates-container {
+          max-height: 250px;
+          border-radius: 12px;
+        }
+        
+        .updates-content {
+          max-height: 190px;
+          padding: 12px;
+        }
+        
+        .update-item {
+          padding: 10px 0;
+          gap: 10px;
+        }
+        
+        .update-date {
+          font-size: 11px;
+          padding: 3px 6px;
+        }
+        
+        .update-text {
+          font-size: 13px;
+        }
+        
+        .window-title {
+          font-size: 13px;
+        }
+        
         /* 移动端调整像素动画位置 */
         .pixel-animation {
           bottom: 10px;
@@ -616,13 +947,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
     <div class="wrap">
       <!-- 标题 + 语言切换 -->
-      <div class="mast">
-        <div>
-          <h1 class="site-title" id="title">Sylvia Xiao</h1>
-          <p class="subtitle" id="subtitle">肖子涵 · Sylvia / Seluna</p>
+        <div class="mast">
+          <div>
+            <h1 class="site-title" id="title">Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span></h1>
+            <div class="intro-tag" id="introTag">Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.</div>
+            <div class="artistic-persona" id="artisticPersona">
+              <span class="persona-label">Artistic Persona</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>
+            </div>
+          </div>
+          <button class="lang" id="langBtn">中文</button>
         </div>
-        <button class="lang" id="langBtn">中文</button>
-      </div>
 
       <!-- 粘性导航 -->
       <div class="navWrap">
@@ -630,10 +964,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
           <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
           <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
-          <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
           <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
-          <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
-          <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
+          <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+          <a href="/media"><svg class="icon"><use href="#ic-feather"/></svg>Media & Arts</a>
+          <a href="/speaking"><svg class="icon"><use href="#ic-chat"/></svg>Public Speaking</a>
           <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
         </nav>
       </div>
@@ -642,7 +976,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     	<section class="hero">
         <div class="photo"><img src="/imgs/sylviaxiao.jpg" alt="Sylvia Xiao portrait" /></div>
         <div>
-          <h1 id="hello">Hi, I'm Sylvia 🌲</h1>
+          <h1 id="hello">Hi, I'm Sylvia 🌙</h1>
           <div class="pills">
             <span class="pill cc">Creative Computing</span>
             <span class="pill cl">Computational Linguistics</span>
@@ -673,33 +1007,74 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           </div>
           
           <div id="lead" class="academic-quote">
-            I study how minds shape language — and how machines learn it. Interests include creative computing
-            and the intersections between music, language, and culture.
+            Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.
           </div>
   			</div>
 		</section>
 
-      <!-- 三张直达卡片 -->
+      <!-- 三大板块入口卡片 -->
       <section class="cards">
         <a class="card" href="/research">
-          <h3 id="pubs">Publications</h3>
-          <div class="muted" id="pubsNote">Papers, posters, talks (coming soon)</div>
+          <h3 id="academic">🎓 Academic</h3>
+          <div class="muted" id="academicNote">Research, Tech projects, and Public Speaking</div>
         </a>
-        <a class="card" href="/projects">
-          <h3 id="projs">Projects</h3>
-          <div class="muted" id="projsNote">Research projects and collaborations</div>
+        <a class="card" href="/music">
+          <h3 id="creative">🎨 Creative</h3>
+          <div class="muted" id="creativeNote">Music, Essays (incl. Travel), Media & Arts reviews, and Photography</div>
         </a>
-        <a class="card" href="/CV_Sylvia_Xiao.pdf" target="_blank" rel="noopener">
-          <h3 id="cv">CV</h3>
-          <div class="muted" id="cvNote">Download PDF</div>
+        <a class="card" href="/archive">
+          <h3 id="archive">📚 Archive & Learning</h3>
+          <div class="muted" id="archiveNote">Polyglot notes, Reading lists, and Archive timeline</div>
         </a>
       </section>
 
+      <!-- Latest Updates -->
+      <section class="section" id="updates">
+        <h2>Latest Updates</h2>
+        <div class="updates-container">
+          <div class="updates-header">
+            <div class="window-controls">
+              <button class="window-btn close"></button>
+              <button class="window-btn minimize"></button>
+              <button class="window-btn maximize"></button>
+            </div>
+            <div class="window-title">Latest Updates</div>
+          </div>
+          <div class="updates-content">
+            <ul class="updates-list">
+              <li class="update-item">
+                <span class="update-date">Sep 2025</span>
+                <span class="update-text">Uploaded travel essay "Walking in Berlin"</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">Aug 2025</span>
+                <span class="update-text">New song demo: 月之来信</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">Jul 2025</span>
+                <span class="update-text">Public talk on Musical Theatre</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">Jun 2025</span>
+                <span class="update-text">Published research paper on Computational Linguistics</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">May 2025</span>
+                <span class="update-text">Completed music composition workshop</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">Apr 2025</span>
+                <span class="update-text">Started new creative writing project</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <footer>
-        © Sylvia Xiao · Contact: <a href="mailto:selunaxiao@gmail.com">selunaxiao@gmail.com</a> ·
-        <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a> /
-        <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a> /
-        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+        Contact: selunaxiao@gmail.com <br/>
+        Links: GitHub | Google Scholar | ORCID <br/>
+        © Sylvia Zihan Xiao 2025
       </footer>
     </div>
 
@@ -754,34 +1129,36 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
       function setEN() {
         document.documentElement.lang = 'en';
-        $('#title').textContent = 'Sylvia Xiao';
-        $('#subtitle').textContent = 'Xiao Zihan · Sylvia / Seluna';
-        $('#hello').textContent = 'Hi, I'm Sylvia 🌲';
+        $('#title').innerHTML = 'Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span>';
+        $('#introTag').textContent = 'Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.';
+        $('#artisticPersona').innerHTML = '<span class="persona-label">Artistic Persona</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>';
+        $('#hello').textContent = 'Hi, I'm Sylvia 🌙';
         $('#lead').textContent =
-          'I study how minds shape language — and how machines learn it. Interests include creative computing and the intersections between music, language, and culture.';
-        $('#pubs').textContent = 'Publications';
-        $('#pubsNote').textContent = 'Papers, posters, talks (coming soon)';
-        $('#projs').textContent = 'Projects';
-        $('#projsNote').textContent = 'Research projects and collaborations';
-        $('#cv').textContent = 'CV';
-        $('#cvNote').textContent = 'Download PDF';
+          'Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.';
+        $('#academic').textContent = '🎓 Academic';
+        $('#academicNote').textContent = 'Research, Tech projects, and Public Speaking';
+        $('#creative').textContent = '🎨 Creative';
+        $('#creativeNote').textContent = 'Music, Essays (incl. Travel), Media & Arts reviews, and Photography';
+        $('#archive').textContent = '📚 Archive & Learning';
+        $('#archiveNote').textContent = 'Polyglot notes, Reading lists, and Archive timeline';
         btn.textContent = '中文';
         animationHint.textContent = 'Click to water! 🌱';
       }
 
       function setZH() {
         document.documentElement.lang = 'zh';
-        $('#title').textContent = '肖子涵 Sylvia Xiao';
-        $('#subtitle').textContent = '语言与心智 · 创意计算 · 音乐与语言';
-        $('#hello').textContent = '你好，我是肖子涵 🌲';
+        $('#title').innerHTML = '肖子涵 Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span>';
+        $('#introTag').textContent = '研究者 × 音乐人 × 写作者 — 探索语言、记忆与创造力的交织。';
+        $('#artisticPersona').innerHTML = '<span class="persona-label">艺术人格</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>';
+        $('#hello').textContent = '你好，我是肖子涵 🌙';
         $('#lead').textContent =
-          '我研究心智如何塑造语言，以及机器如何学习语言；关注创意计算与音乐、语言、文化的交叉。';
-        $('#pubs').textContent = '学术发表';
-        $('#pubsNote').textContent = '论文、海报、报告（敬请期待）';
-        $('#projs').textContent = '项目';
-        $('#projsNote').textContent = '研究项目与合作';
-        $('#cv').textContent = '简历';
-        $('#cvNote').textContent = '下载 PDF';
+          '研究者 × 音乐人 × 写作者 — 探索语言、记忆与创造力的交织。';
+        $('#academic').textContent = '🎓 学术';
+        $('#academicNote').textContent = '研究、技术项目与公开演讲';
+        $('#creative').textContent = '🎨 创意';
+        $('#creativeNote').textContent = '音乐、散文（含旅行）、媒体艺术评论与摄影';
+        $('#archive').textContent = '📚 档案与学习';
+        $('#archiveNote').textContent = '多语言笔记、阅读清单与档案时间线';
         btn.textContent = 'EN';
         animationHint.textContent = '点击浇水！🌱';
       }
