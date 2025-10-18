@@ -1,0 +1,346 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Teaching | Sylvia Xiao</title>
+    
+    <!-- 字体：EB Garamond + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 页面背景样式 -->
+    <link rel="stylesheet" href="/src/styles/page-backgrounds.css">
+    
+    <style>
+      /* 基础样式 */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --link:#10b981; --max:980px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --link:#34d399;
+        }
+      }
+      
+      *{ box-sizing:border-box }
+      body{ margin:0; color:var(--fg); font:16px/1.7 Inter, system-ui, sans-serif; 
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 25%, #a7f3d0 50%, #6ee7b7 75%, #34d399 100%); }
+      
+      /* 导航样式 */
+      .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); }
+      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px }
+      nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative }
+      nav a:hover{ color:var(--fg) }
+      
+      /* Teaching页面特定的导航下划线 */
+      nav a[href="/teaching"]::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#10b981,#059669); transform:scaleX(1); transform-origin:left; transition:.25s; 
+      }
+      nav a:not([href="/teaching"])::after{ 
+        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      }
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+      
+      .page-container{ min-height: 100vh; padding: 2rem 0; }
+      .page-content{ max-width: 980px; margin: 0 auto; padding: 2rem 22px; background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; }
+      .page-subtitle{ font-size:20px; color:var(--muted); text-align:center; margin-bottom:3rem; }
+      .page-tagline{ font-size:16px; color:var(--muted); text-align:center; margin-bottom:4rem; font-style:italic; }
+      
+      /* 内容区域 */
+      .content-section{ margin:2rem 0; padding:2rem; background:color-mix(in oklab,#ffffff 70%, transparent); border-radius:12px; border:1px solid var(--line); }
+      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; }
+      
+      /* Teaching Philosophy */
+      .philosophy-quote{ 
+        background: linear-gradient(135deg, rgba(236, 253, 245, 0.8), rgba(209, 250, 229, 0.6)); 
+        padding:3rem 2.5rem; 
+        border-radius:12px; 
+        border-left:4px solid rgba(16, 185, 129, 0.4); 
+        margin:2rem 0; 
+        text-align:left;
+        max-width: 880px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+      }
+      .philosophy-quote::after {
+        content: "🌱";
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 80px;
+        opacity: 0.15;
+        pointer-events: none;
+        transform: rotate(-15deg);
+      }
+      .philosophy-quote p{ 
+        margin:0 0 1.5rem;
+        font-family: "EB Garamond", serif;
+        font-size: 20px;
+        line-height: 1.9;
+        font-style: normal;
+        color: #064e3b;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+      .philosophy-quote .bilingual{ 
+        font-family: "EB Garamond", serif;
+        font-size: 18px; 
+        color: #047857; 
+        margin-top: 2rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        line-height: 1.8;
+      }
+      
+      /* 课程卡片网格 */
+      .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      
+      .course-card {
+        background: color-mix(in oklab, #ffffff 90%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+      
+      .course-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+      
+      .course-card h3 {
+        font-family: "EB Garamond", serif;
+        font-size: 1.5rem;
+        margin: 0 0 0.5rem;
+        color: #10b981;
+      }
+      
+      .course-year {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+      }
+      
+      .course-description {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      
+      /* 项目卡片 */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      
+      .project-card {
+        background: color-mix(in oklab, #ffffff 85%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+      
+      .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.1);
+      }
+      
+      .project-card h4 {
+        color: #10b981;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+      
+      /* 合作邀请 */
+      .collaboration-invite {
+        background: linear-gradient(135deg, rgba(236, 253, 245, 0.8), rgba(209, 250, 229, 0.6));
+        padding: 3rem 2.5rem;
+        border-radius: 12px;
+        border-left: 4px solid rgba(16, 185, 129, 0.4);
+        margin: 2rem auto;
+        text-align: left;
+        max-width: 880px;
+        position: relative;
+        overflow: hidden;
+      }
+      .collaboration-invite::after {
+        content: "🌱";
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 80px;
+        opacity: 0.15;
+        pointer-events: none;
+        transform: rotate(-15deg);
+      }
+      .collaboration-invite p {
+        font-family: "EB Garamond", serif;
+        font-size: 20px;
+        line-height: 1.9;
+        font-style: normal;
+        color: #064e3b;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        margin: 0;
+      }
+      
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .course-card, .project-card {
+          background: color-mix(in oklab, #1f2937 90%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .philosophy-quote, .collaboration-invite {
+          background: linear-gradient(135deg, #064e3b, #065f46);
+        }
+      }
+      
+      /* 响应式 */
+      @media (max-width:768px){
+        .page-title{ font-size:36px; }
+        .page-content{ padding:1rem; }
+        .courses-grid, .projects-grid { grid-template-columns: 1fr; }
+        .philosophy-quote, .collaboration-invite { padding: 1.5rem; font-size: 16px; }
+      }
+    </style>
+  </head>
+
+  <body class="teaching-page">
+    <!-- SVG icons -->
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <!-- 导航栏 -->
+    <div class="navWrap">
+      <nav>
+        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+        <a href="/teaching"><svg class="icon"><use href="#ic-book"/></svg>Teaching</a>
+        <a href="/projects"><svg class="icon"><use href="#ic-code"/></svg>Projects</a>
+        <a href="/essays-fiction"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music-sound"><svg class="icon"><use href="#ic-note"/></svg>Music & Sound</a>
+        <a href="/mind-mood"><svg class="icon"><use href="#ic-chat"/></svg>Mind & Mood</a>
+        <a href="/cv.pdf"><svg class="icon"><use href="#ic-archive"/></svg>CV</a>
+      </nav>
+    </div>
+
+    <!-- 页面内容 -->
+    <div class="page-container">
+      <div class="page-content">
+        <h1 class="page-title">Teaching</h1>
+        <p class="page-subtitle">Designing for empathy, creativity, and learning</p>
+        <p class="page-tagline" style="margin-top: -2rem; font-size: 16px;">Exploring how emotional intelligence reshapes education in the age of AI.</p>
+        
+        <!-- Teaching Philosophy -->
+        <div class="philosophy-quote">
+          <p>"I believe learning should heal, not hurt — that education can be a space for empathy, creativity, and self-discovery. My teaching draws from psychology, storytelling, and technology to help students see learning as an emotional and imaginative act. In every class, I hope to remind my students that knowledge isn't about perfection — it's about connection."</p>
+          <p class="bilingual">「我相信教育的本质不是知识传递，而是疗愈与再创造。」</p>
+        </div>
+        
+        <!-- Courses & Workshops -->
+        <div class="content-section">
+          <h2>Courses & Workshops</h2>
+          
+          <div class="courses-grid">
+            <div class="course-card">
+              <h3>🎭 Music Theatre & Emotion</h3>
+              <div class="course-year">2023</div>
+              <p class="course-description">Explored how performance and lyrics in both Western and Chinese musical theatre express emotional and social realities. Designed a short appreciation module and guided peer discussions on narrative structure and empathy in stage art.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px; font-style: italic;">📄 Slides (coming soon)</p>
+            </div>
+            
+            <div class="course-card">
+              <h3>♀️ Gender & Equality Presentation</h3>
+              <div class="course-year">2022</div>
+              <p class="course-description">Delivered a thematic presentation on gender representation and equality in education, combining insights from feminist readings and classroom discussions. Encouraged peers to reflect on bias and the role of gender in language and media.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px; font-style: italic;">📄 Slides (coming soon)</p>
+            </div>
+            
+            <div class="course-card">
+              <h3>🧠 Reflective Learning in English Education</h3>
+              <div class="course-year">2025</div>
+              <p class="course-description">Worked with students to enhance storytelling and emotional confidence in language learning. Focused on helping learners connect personal experiences to English expression.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px; font-style: italic;">📄 Slides (restricted content)</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mentorship & Impact -->
+        <div class="content-section">
+          <h2>Mentorship & Impact</h2>
+          <div class="philosophy-quote">
+            <p>"Beyond formal teaching, I mentor students struggling with depression or anxiety, encouraging them to express their stories through writing, art, and dialogue. Some still message me on holidays — reminders that education's most lasting lessons are human ones."</p>
+          </div>
+          <p style="text-align: left; margin-top: 1.5rem; color: #059669; font-size: 16px;">
+            ✦ Focus areas: emotional literacy · reflective writing · student resilience
+          </p>
+        </div>
+        
+        <!-- Educational Projects -->
+        <div class="content-section">
+          <h2>Educational Projects</h2>
+          
+          <div class="projects-grid">
+            <div class="project-card">
+              <h4>Empathy in the Classroom Toolkit</h4>
+              <p>A set of creative pedagogy slides integrating music, narrative, and therapy for emotional learning.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px;">📄 Slides (coming soon)</p>
+            </div>
+            
+            <div class="project-card">
+              <h4>Gender & Media Mini-Course</h4>
+              <p>Feminist theory lecture slides exploring representation and identity, shared with watermark for educational use.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px;">📄 Slides (coming soon)</p>
+            </div>
+            
+            <div class="project-card">
+              <h4>Music as Healing Workshop</h4>
+              <p>An interactive experiment exploring how rhythm and tone can improve focus and emotional regulation.</p>
+              <p style="margin-top: 1rem; color: #059669; font-size: 14px;">📄 Slides (coming soon)</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Collaboration Invitation -->
+        <div class="collaboration-invite">
+          <p>"I'm always open to collaborations that merge creativity, empathy, and technology in education — whether through guest lectures, interdisciplinary research, or new forms of narrative learning."</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

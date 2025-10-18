@@ -23,7 +23,8 @@ import Header from '../components/Header.astro';
       body{ margin:0; background:var(--bg); color:var(--fg); font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif; }
       a{ color:var(--link); text-decoration:none } a:hover{ text-decoration:underline }
 
-      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 64px; }
+      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 64px; background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); margin-top: 20px; margin-bottom: 20px; }
 
       /* 顶部：大标题 + 语言切换 */
       .masthead{ padding:28px 0 10px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }

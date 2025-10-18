@@ -1,0 +1,446 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Reading & Archive | Sylvia Xiao</title>
+
+    <!-- 字体：Playfair Display + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* ===== 色板：莫奈柔和彩 + 暗色适配 ===== */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --g1:#f6e6e4; --g2:#e2f0f5; --g3:#f4f6db; --g4:#e9f7ef; --g5:#f8ecf2;
+        --link:#5c6cff; --max:980px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --g1:#151821; --g2:#1e2432; --g3:#202634; --g4:#1a2229; --g5:#232033;
+          --link:#92a8ff;
+        }
+      }
+
+      *{ box-sizing:border-box }
+      html,body{ height:100% }
+      body{
+        margin:0; color:var(--fg);
+        font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+        /* 莫奈渐变 + 固定视差 */
+        background: linear-gradient(135deg,var(--g1) 0%,var(--g2) 25%,var(--g3) 50%,var(--g4) 75%,var(--g5) 100%);
+        background-attachment: fixed;
+      }
+
+      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 80px; }
+
+      /* 页面标题 */
+      .page-header{
+        padding:40px 0 20px;
+        text-align:center;
+      }
+      
+      .page-title{
+        font-family:"Playfair Display",serif;
+        font-size:48px;
+        margin:0 0 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .page-subtitle{
+        font-size:20px;
+        color:var(--muted);
+        margin:0;
+      }
+
+      /* 导航栏 */
+      .navWrap{ 
+        position:sticky; 
+        top:0; 
+        z-index:40; 
+        backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); 
+        border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); 
+      }
+      
+      nav{ 
+        max-width:var(--max); 
+        margin:0 auto; 
+        padding:10px var(--pad); 
+        display:flex; 
+        flex-wrap:wrap; 
+        gap:16px; 
+      }
+      
+      nav a{ 
+        color:var(--muted); 
+        text-decoration:none; 
+        display:inline-flex; 
+        gap:.45rem; 
+        align-items:center; 
+        position:relative; 
+        transition:color 0.2s ease;
+      }
+      
+      nav a:hover{ 
+        color:var(--fg); 
+      }
+
+      /* 内容区域 */
+      .content-section{
+        margin:40px 0;
+        padding:32px;
+        background:color-mix(in oklab,#ffffff 95%, transparent);
+        border-radius:16px;
+        border:1px solid var(--line);
+        box-shadow:0 4px 16px rgba(0,0,0,0.05);
+      }
+
+      .section-title{
+        font-family:"Playfair Display",serif;
+        font-size:32px;
+        margin:0 0 20px;
+        color:var(--fg);
+      }
+
+      .section-content{
+        font-size:16px;
+        line-height:1.8;
+        color:var(--fg);
+      }
+
+      /* 阅读笔记网格 */
+      .reading-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+        gap:24px;
+        margin:24px 0;
+      }
+
+      .reading-category{
+        padding:24px;
+        background:color-mix(in oklab,#f8f9fa 80%, transparent);
+        border-radius:16px;
+        border:1px solid var(--line);
+        transition:transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .reading-category:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 24px rgba(0,0,0,0.1);
+      }
+
+      .category-title{
+        font-family:"Playfair Display",serif;
+        font-size:24px;
+        margin:0 0 16px;
+        color:var(--fg);
+      }
+
+      .book-list{
+        list-style:none;
+        padding:0;
+        margin:0;
+      }
+
+      .book-item{
+        padding:12px 0;
+        border-bottom:1px solid var(--line);
+      }
+
+      .book-item:last-child{
+        border-bottom:none;
+      }
+
+      .book-title{
+        font-weight:600;
+        color:var(--fg);
+        margin:0 0 4px;
+      }
+
+      .book-author{
+        font-size:14px;
+        color:var(--muted);
+        margin:0 0 8px;
+      }
+
+      .book-notes{
+        font-size:14px;
+        color:var(--fg);
+        line-height:1.6;
+        margin:0;
+      }
+
+      /* 个人档案 */
+      .archive-section{
+        background:linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-left:4px solid #667eea;
+      }
+
+      .archive-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+        gap:20px;
+        margin:24px 0;
+      }
+
+      .archive-item{
+        padding:20px;
+        background:color-mix(in oklab,#f8f9fa 60%, transparent);
+        border-radius:12px;
+        border:1px solid var(--line);
+        transition:transform 0.2s ease;
+      }
+
+      .archive-item:hover{
+        transform:translateY(-2px);
+      }
+
+      .archive-item h4{
+        font-family:"Playfair Display",serif;
+        font-size:18px;
+        margin:0 0 8px;
+        color:var(--fg);
+      }
+
+      .archive-item p{
+        font-size:14px;
+        color:var(--muted);
+        margin:0;
+      }
+
+      /* 私人访问提示 */
+      .private-notice{
+        background:linear-gradient(135deg, rgba(245, 87, 108, 0.1) 0%, rgba(251, 146, 60, 0.1) 100%);
+        border-left:4px solid #f5576c;
+        padding:20px;
+        border-radius:12px;
+        margin:20px 0;
+      }
+
+      .private-notice h4{
+        font-family:"Playfair Display",serif;
+        font-size:18px;
+        margin:0 0 8px;
+        color:var(--fg);
+      }
+
+      .private-notice p{
+        font-size:14px;
+        color:var(--muted);
+        margin:0;
+      }
+
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .navWrap{
+          background:color-mix(in oklab,#1f2937 80%, transparent);
+        }
+        
+        .content-section{
+          background:color-mix(in oklab,#1f2937 95%, transparent);
+        }
+        
+        .reading-category{
+          background:color-mix(in oklab,#374151 80%, transparent);
+        }
+        
+        .archive-item{
+          background:color-mix(in oklab,#4b5563 60%, transparent);
+        }
+        
+        .archive-section{
+          background:linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+        }
+        
+        .private-notice{
+          background:linear-gradient(135deg, rgba(245, 87, 108, 0.2) 0%, rgba(251, 146, 60, 0.2) 100%);
+        }
+      }
+
+      footer{ 
+        margin-top:64px; 
+        padding-top:24px; 
+        border-top:1px solid var(--line); 
+        color:var(--muted);
+        text-align:center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <!-- 页面标题 -->
+      <div class="page-header">
+        <h1 class="page-title">Reading & Archive</h1>
+        <p class="page-subtitle">Reading notes grouped by field · Personal archive for reflection</p>
+      </div>
+
+      <!-- 导航栏 -->
+      <div class="navWrap">
+        <nav>
+          <a href="/">Home</a>
+          <a href="/research-teaching">Research & Teaching</a>
+          <a href="/projects">Projects</a>
+          <a href="/mind-mood">Mind & Mood</a>
+          <a href="/essays-fiction">Essays</a>
+          <a href="/music-sound">Music & Sound</a>
+          <a href="/reading-archive">Reading & Archive</a>
+        </nav>
+      </div>
+
+      <!-- 阅读笔记 -->
+      <section class="content-section">
+        <h2 class="section-title">Reading Notes</h2>
+        <p class="section-content">Organized by field of study, these notes reflect my ongoing exploration of cognitive science, feminist theory, and media studies.</p>
+        
+        <div class="reading-grid">
+          <div class="reading-category">
+            <h3 class="category-title">Cognitive Science</h3>
+            <ul class="book-list">
+              <li class="book-item">
+                <div class="book-title">The Feeling of What Happens</div>
+                <div class="book-author">Antonio Damasio</div>
+                <div class="book-notes">Exploring the neural basis of consciousness and emotion. Particularly relevant to my work on AI empathy and emotional recognition systems.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Thinking, Fast and Slow</div>
+                <div class="book-author">Daniel Kahneman</div>
+                <div class="book-notes">Understanding cognitive biases and decision-making processes. Informs my research on how AI systems can account for human cognitive limitations.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">The Predictive Mind</div>
+                <div class="book-author">Jakob Hohwy</div>
+                <div class="book-notes">Predictive processing theory and its implications for understanding consciousness. Fascinating connections to machine learning and pattern recognition.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Embodied Cognition</div>
+                <div class="book-author">Lawrence Shapiro</div>
+                <div class="book-notes">How cognition is shaped by bodily experience. Important for designing AI systems that can understand embodied emotional experiences.</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="reading-category">
+            <h3 class="category-title">Feminist Theory</h3>
+            <ul class="book-list">
+              <li class="book-item">
+                <div class="book-title">Gender Trouble</div>
+                <div class="book-author">Judith Butler</div>
+                <div class="book-notes">Performative theory of gender and its implications for understanding identity in digital spaces. Essential for my work on representation in AI systems.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">The Second Sex</div>
+                <div class="book-author">Simone de Beauvoir</div>
+                <div class="book-notes">Foundational text on women's oppression and liberation. Provides framework for understanding gender dynamics in technology and education.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Cyborg Manifesto</div>
+                <div class="book-author">Donna Haraway</div>
+                <div class="book-notes">Posthuman feminism and the blurring of boundaries between human and machine. Directly relevant to my research on human-AI interaction.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Algorithms of Oppression</div>
+                <div class="book-author">Safiya Umoja Noble</div>
+                <div class="book-notes">How search algorithms perpetuate bias and discrimination. Critical for understanding the ethical implications of AI systems in education.</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="reading-category">
+            <h3 class="category-title">Media Studies</h3>
+            <ul class="book-list">
+              <li class="book-item">
+                <div class="book-title">Understanding Media</div>
+                <div class="book-author">Marshall McLuhan</div>
+                <div class="book-notes">"The medium is the message" and its implications for digital learning environments. How technology shapes the way we think and learn.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Remediation</div>
+                <div class="book-author">Jay David Bolter & Richard Grusin</div>
+                <div class="book-notes">How new media refashion older media forms. Relevant to understanding how AI systems can enhance traditional educational approaches.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">Convergence Culture</div>
+                <div class="book-author">Henry Jenkins</div>
+                <div class="book-notes">Participatory culture and media convergence. Informs my work on interactive narratives and collaborative learning environments.</div>
+              </li>
+              
+              <li class="book-item">
+                <div class="book-title">The Language of New Media</div>
+                <div class="book-author">Lev Manovich</div>
+                <div class="book-notes">Digital media theory and the logic of new media. Essential for understanding how to design effective digital learning experiences.</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 个人档案 -->
+      <section class="content-section archive-section">
+        <h2 class="section-title">Personal Archive</h2>
+        <p class="section-content">A collection of personal logs, reflections, and private materials for ongoing self-understanding and growth.</p>
+        
+        <div class="archive-grid">
+          <div class="archive-item">
+            <h4>Daily Reflection Logs</h4>
+            <p>Personal journal entries tracking mood patterns, insights, and growth over time.</p>
+          </div>
+          
+          <div class="archive-item">
+            <h4>Therapy Session Notes</h4>
+            <p>Private reflections on therapy sessions and therapeutic insights (anonymized and de-identified).</p>
+          </div>
+          
+          <div class="archive-item">
+            <h4>Creative Process Documentation</h4>
+            <p>Behind-the-scenes notes on the creation of Katya's Path, musical compositions, and other creative projects.</p>
+          </div>
+          
+          <div class="archive-item">
+            <h4>Research Development Log</h4>
+            <p>Personal notes on research ideas, failed experiments, and breakthrough moments in AI empathy research.</p>
+          </div>
+          
+          <div class="archive-item">
+            <h4>Learning Journey Maps</h4>
+            <p>Visual and textual representations of my learning patterns, interests, and intellectual development over time.</p>
+          </div>
+          
+          <div class="archive-item">
+            <h4>Emotional Pattern Analysis</h4>
+            <p>Self-analysis of emotional patterns, triggers, and coping strategies (for personal growth and research insights).</p>
+          </div>
+        </div>
+        
+        <div class="private-notice">
+          <h4>Private Access Notice</h4>
+          <p>This archive contains personal and sensitive materials. Access is restricted to myself and trusted collaborators working on related research projects. Some materials may be shared in anonymized form for academic and therapeutic purposes.</p>
+        </div>
+      </section>
+
+      <footer>
+        © Sylvia Xiao · Designing Healing through Learning
+      </footer>
+    </div>
+  </body>
+</html>

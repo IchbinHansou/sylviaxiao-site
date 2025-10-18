@@ -1,0 +1,131 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title} | Sylvia Xiao</title>
+    {description && <meta name="description" content={description} />}
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+      /* 基础样式 */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --link:#9333ea; --max:800px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --link:#a855f7;
+        }
+      }
+      
+      *{ box-sizing:border-box }
+      html, body { height: 100%; }
+      body{ 
+        margin:0; 
+        color:var(--fg); 
+        font:18px/1.8 Inter, system-ui, sans-serif; 
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+      
+      /* 导航样式 */
+      .navWrap{ 
+        position:sticky; 
+        top:0; 
+        z-index:40; 
+        backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); 
+        border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); 
+      }
+      nav{ 
+        max-width:var(--max); 
+        margin:0 auto; 
+        padding:10px var(--pad); 
+        display:flex; 
+        flex-wrap:wrap; 
+        gap:16px 
+      }
+      nav a{ 
+        color:var(--muted); 
+        text-decoration:none; 
+        display:inline-flex; 
+        gap:.45rem; 
+        align-items:center; 
+        position:relative 
+      }
+      nav a:hover{ color:var(--fg) }
+      
+      nav a[href="/mind-mood"]::after{ 
+        content:""; 
+        position:absolute; 
+        left:0; 
+        right:0; 
+        bottom:-3px; 
+        height:2px;
+        background:linear-gradient(90deg,#9333ea,#7c3aed); 
+        transform:scaleX(1); 
+        transform-origin:left; 
+        transition:.25s; 
+      }
+      nav a:not([href="/mind-mood"])::after{ 
+        content:""; 
+        position:absolute; 
+        left:0; 
+        right:0; 
+        bottom:-3px; 
+        height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); 
+        transform:scaleX(0); 
+        transform-origin:left; 
+        transition:.25s; 
+      }
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+    </style>
+    
+    <slot name="head" />
+  </head>
+
+  <body>
+    <!-- SVG icons -->
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <!-- 导航栏 -->
+    <div class="navWrap">
+      <nav>
+        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+        <a href="/teaching"><svg class="icon"><use href="#ic-book"/></svg>Teaching</a>
+        <a href="/projects"><svg class="icon"><use href="#ic-code"/></svg>Projects</a>
+        <a href="/essays-fiction"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music-sound"><svg class="icon"><use href="#ic-note"/></svg>Music & Sound</a>
+        <a href="/mind-mood"><svg class="icon"><use href="#ic-chat"/></svg>Mind & Mood</a>
+        <a href="/cv.pdf"><svg class="icon"><use href="#ic-archive"/></svg>CV</a>
+      </nav>
+    </div>
+
+    <slot />
+  </body>
+</html>

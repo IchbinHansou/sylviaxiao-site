@@ -11,15 +11,16 @@ import Header from '../components/Header.astro';
     <meta name="viewport" content="width=device-width" />
     <title>Music & Sound | Sylvia Xiao</title>
     
-    <!-- 字体：Playfair Display + Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/styles/page-backgrounds.css">
     
     <style>
       :root{ --fg:#1e2228; --muted:#5c6575; --line:#00000018; --link:#ec4899; --max:980px; --pad:22px; }
       @media (prefers-color-scheme: dark){ :root{ --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22; --link:#f472b6; } }
       *{ box-sizing:border-box }
-      body{ margin:0; color:var(--fg); font:16px/1.7 Inter, system-ui, sans-serif; }
+      body{ margin:0; color:var(--fg); font:16px/1.7 Inter, system-ui, sans-serif; 
+        background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #fbbf24 100%); }
       
       .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
         border-top:1px solid var(--line); border-bottom:1px solid var(--line);
@@ -27,11 +28,11 @@ import Header from '../components/Header.astro';
       nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px }
       nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative }
       nav a:hover{ color:var(--fg) }
-      nav a[href="/music"]::after{ 
+      nav a[href="/music-sound"]::after{ 
         content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
         background:linear-gradient(90deg,#ec4899,#db2777); transform:scaleX(1); transform-origin:left; transition:.25s; 
       }
-      nav a:not([href="/music"])::after{ 
+      nav a:not([href="/music-sound"])::after{ 
         content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
         background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
       }
@@ -41,12 +42,12 @@ import Header from '../components/Header.astro';
       .page-container{ min-height: 100vh; padding: 2rem 0; }
       .page-content{ max-width: 980px; margin: 0 auto; padding: 2rem 22px; background: color-mix(in oklab, #ffffff 85%, transparent);
         border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
-      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; color:#ec4899; }
+      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; color:#be185d !important; }
       .page-subtitle{ font-size:20px; color:var(--muted); text-align:center; margin-bottom:3rem; }
       
       /* 内容区域 */
       .content-section{ margin:2rem 0; padding:2rem; background:color-mix(in oklab,#ffffff 70%, transparent); border-radius:12px; border:1px solid var(--line); }
-      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; color:#ec4899; }
+      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; color:#be185d; }
       
       /* 音乐卡片网格 */
       .music-grid {
@@ -324,18 +325,18 @@ import Header from '../components/Header.astro';
       <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
     </defs></svg>
 
-    <div class="navWrap">
-      <nav>
-        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
-        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
-        <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
-        <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
-        <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
-        <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
-        <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
-        <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
-      </nav>
-    </div>
+            <div class="navWrap">
+              <nav>
+                <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+                <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+                <a href="/teaching"><svg class="icon"><use href="#ic-book"/></svg>Teaching</a>
+                <a href="/projects"><svg class="icon"><use href="#ic-code"/></svg>Projects</a>
+                <a href="/essays-fiction"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+                <a href="/music-sound"><svg class="icon"><use href="#ic-note"/></svg>Music & Sound</a>
+                <a href="/mind-mood"><svg class="icon"><use href="#ic-chat"/></svg>Mind & Mood</a>
+                <a href="/cv.pdf"><svg class="icon"><use href="#ic-archive"/></svg>CV</a>
+              </nav>
+            </div>
 
     <div class="page-container">
       <div class="page-content">

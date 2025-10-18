@@ -1,0 +1,349 @@
+---
+import { getCollection } from 'astro:content';
+import MoodTag from '../components/MoodTag.astro';
+
+// 获取所有 mind-mood 文章并按日期排序
+const posts = (await getCollection('mindMood')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Mind & Mood | Sylvia Xiao</title>
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+      /* 基础样式 */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --link:#9333ea; --max:980px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --link:#a855f7;
+        }
+      }
+      
+      *{ box-sizing:border-box }
+      html, body { height: 100%; }
+      body{ 
+        margin:0; 
+        color:var(--fg); 
+        font:16px/1.7 Inter, system-ui, sans-serif; 
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+      
+      /* 导航样式 */
+      .navWrap{ 
+        position:sticky; 
+        top:0; 
+        z-index:40; 
+        backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); 
+        border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); 
+      }
+      nav{ 
+        max-width:var(--max); 
+        margin:0 auto; 
+        padding:10px var(--pad); 
+        display:flex; 
+        flex-wrap:wrap; 
+        gap:16px 
+      }
+      nav a{ 
+        color:var(--muted); 
+        text-decoration:none; 
+        display:inline-flex; 
+        gap:.45rem; 
+        align-items:center; 
+        position:relative 
+      }
+      nav a:hover{ color:var(--fg) }
+      
+      /* Mind & Mood页面特定的导航下划线 */
+      nav a[href="/mind-mood"]::after{ 
+        content:""; 
+        position:absolute; 
+        left:0; 
+        right:0; 
+        bottom:-3px; 
+        height:2px;
+        background:linear-gradient(90deg,#9333ea,#7c3aed); 
+        transform:scaleX(1); 
+        transform-origin:left; 
+        transition:.25s; 
+      }
+      nav a:not([href="/mind-mood"])::after{ 
+        content:""; 
+        position:absolute; 
+        left:0; 
+        right:0; 
+        bottom:-3px; 
+        height:2px;
+        background:linear-gradient(90deg,#3b82f6,#1d4ed8); 
+        transform:scaleX(0); 
+        transform-origin:left; 
+        transition:.25s; 
+      }
+      nav a:hover::after{ transform:scaleX(1); }
+      .icon{ width:16px; height:16px; opacity:.9; }
+      
+      .page-container{ 
+        min-height: 100vh; 
+        padding: 2rem 0; 
+      }
+      
+      .page-content{ 
+        max-width: 980px; 
+        margin: 0 auto; 
+        padding: 2rem 22px; 
+        background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+        backdrop-filter: blur(10px); 
+      }
+      
+      .page-title{ 
+        font-family:"EB Garamond",serif; 
+        font-size:48px; 
+        margin:0 0 0.5rem; 
+        text-align:center; 
+        color: #a855f7;
+      }
+      
+      .page-subtitle{ 
+        font-size:20px; 
+        color:var(--muted); 
+        text-align:center; 
+        margin-bottom:3rem; 
+        font-style: italic;
+      }
+      
+      /* 文章列表 */
+      .posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      
+      .post-card {
+        background: color-mix(in oklab, #ffffff 90%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      
+      .post-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(147, 51, 234, 0.15);
+        border-color: rgba(147, 51, 234, 0.3);
+        background: color-mix(in oklab, #ffffff 95%, transparent);
+      }
+      
+      .post-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .post-date {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-family: "PingFang SC", -apple-system, sans-serif;
+      }
+      
+      .post-title {
+        font-family: "EB Garamond", serif;
+        font-size: 1.75rem;
+        margin: 0 0 1rem;
+        color: #5b21b6;
+        font-weight: 600;
+      }
+      
+      .post-excerpt {
+        color: var(--muted);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      
+      .post-footer {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--line);
+      }
+      
+      .post-tag {
+        display: inline-block;
+        padding: 0.25rem 0.65rem;
+        background: rgba(91, 33, 182, 0.08);
+        color: #5b21b6;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+      
+      .weibo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.65rem;
+        background: rgba(255, 107, 107, 0.1);
+        color: #e74c3c;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--muted);
+      }
+      
+      .empty-state h3 {
+        font-family: "EB Garamond", serif;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #a855f7;
+      }
+      
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .page-title {
+          color: #c084fc;
+        }
+        
+        .empty-state h3 {
+          color: #c084fc;
+        }
+        
+        .post-card {
+          background: color-mix(in oklab, #1f2937 90%, transparent);
+        }
+        
+        .post-card:hover {
+          background: color-mix(in oklab, #1f2937 95%, transparent);
+          border-color: rgba(168, 85, 247, 0.3);
+          box-shadow: 0 12px 28px rgba(168, 85, 247, 0.2);
+        }
+        
+        .post-title {
+          color: #a78bfa;
+        }
+        
+        .post-tag {
+          background: rgba(167, 139, 250, 0.15);
+          color: #a78bfa;
+        }
+        
+        .weibo-badge {
+          background: rgba(255, 107, 107, 0.15);
+          color: #ff6b6b;
+        }
+      }
+      
+      /* 响应式 */
+      @media (max-width:768px){
+        .page-title{ font-size:36px; }
+        .page-content{ padding:1.5rem; }
+        .post-card{ padding:1.5rem; }
+        .post-title{ font-size:1.4rem; }
+      }
+    </style>
+  </head>
+
+  <body class="mind-mood-page">
+    <!-- SVG icons -->
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <symbol id="ic-book" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h9a3 3 0 0 1 3 3v12.5a.5.5 0 0 1-.8.4l-2.2-1.6a2 2 0 0 0-1.2-.4H6A2 2 0 0 1 4 16V6a2 2 0 0 1 2-2Zm0 2v10h8a4 4 0 0 1 2 .6V7a1 1 0 0 0-1-1H6Z"/></symbol>
+      <symbol id="ic-code" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 16.6 5.8 13l3.6-3.6 1.4 1.4L8.6 13l2.2 2.2-1.4 1.4Zm5.2 0-1.4-1.4L15.4 13l-2.2-2.2 1.4-1.4L18.2 13l-3.6 3.6Z"/></symbol>
+      <symbol id="ic-feather" viewBox="0 0 24 24"><path fill="currentColor" d="M20.7 4.3a4.5 4.5 0 0 0-6.4 0L4 14.6V20h5.4L20.7 10.7a4.5 4.5 0 0 0 0-6.4ZM8.6 18H6v-2.6l7.7-7.7 2.6 2.6L8.6 18Z"/></symbol>
+      <symbol id="ic-note" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3v11.1a3.5 3.5 0 1 1-1.5-2.9V6.1l8-2V13a3.5 3.5 0 1 1-1.5-2.9V3.9L12 5.4V3Z"/></symbol>
+      <symbol id="ic-chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 5h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H8l-4 4V8a3 3 0 0 1 3-3Zm14 1h2a2 2 0 0 1 2 2v8l-3-3h-1V6Z"/></symbol>
+      <symbol id="ic-archive" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0-1-2h16l-1 2H5Zm4 6h6v2H9v-2Z"/></symbol>
+    </defs></svg>
+
+    <!-- 导航栏 -->
+    <div class="navWrap">
+      <nav>
+        <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
+        <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
+        <a href="/teaching"><svg class="icon"><use href="#ic-book"/></svg>Teaching</a>
+        <a href="/projects"><svg class="icon"><use href="#ic-code"/></svg>Projects</a>
+        <a href="/essays-fiction"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music-sound"><svg class="icon"><use href="#ic-note"/></svg>Music & Sound</a>
+        <a href="/mind-mood"><svg class="icon"><use href="#ic-chat"/></svg>Mind & Mood</a>
+        <a href="/cv.pdf"><svg class="icon"><use href="#ic-archive"/></svg>CV</a>
+      </nav>
+    </div>
+
+    <!-- 页面内容 -->
+    <div class="page-container">
+      <div class="page-content">
+        <h1 class="page-title">Mind & Mood</h1>
+        <p class="page-subtitle">Notes from the other side of learning — reflections on therapy, medication, and empathy.</p>
+        
+        {posts.length === 0 ? (
+          <div class="empty-state">
+            <h3>Coming Soon</h3>
+            <p>New reflections are being written. Check back soon.</p>
+          </div>
+        ) : (
+          <div class="posts-list">
+            {posts.map((post) => (
+              <a href={`/mind-mood/${post.id}`} class="post-card">
+                <div class="post-header">
+                  <span class="post-date">
+                    {post.data.date.toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </span>
+                  <MoodTag mood={post.data.mood} />
+                </div>
+                
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-excerpt">{post.data.excerpt}</p>
+                
+                <div class="post-footer">
+                  {post.data.tags.map((tag) => (
+                    <span class="post-tag">{tag}</span>
+                  ))}
+                  {post.data.weiboOriginal && (
+                    <span class="weibo-badge">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9.8 20.2c-4.8 0-8.7-3.2-8.7-7.1 0-2.4 1.3-4.8 3.5-6.6.4-.3.9-.2 1.1.2.2.4.1.9-.3 1.1-1.8 1.5-2.8 3.4-2.8 5.3 0 3.1 3.1 5.6 7 5.6 3.8 0 7-2.5 7-5.6 0-1.4-.6-2.8-1.7-3.9-.3-.3-.3-.8 0-1.1.3-.3.8-.3 1.1 0 1.4 1.4 2.1 3.1 2.1 5 0 3.9-3.9 7.1-8.7 7.1zm2.3-8.4c-.3 0-.5-.1-.7-.3-.3-.3-.3-.8 0-1.1l4.7-4.7c.3-.3.8-.3 1.1 0 .3.3.3.8 0 1.1l-4.7 4.7c-.2.2-.4.3-.4.3z"/>
+                      </svg>
+                      Weibo Original
+                    </span>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </body>
+</html>

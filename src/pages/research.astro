@@ -12,7 +12,7 @@ import Header from '../components/Header.astro';
     <title>Research | Sylvia Xiao</title>
     
     <!-- 字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
     
     <!-- 页面背景样式 -->
     <link rel="stylesheet" href="/src/styles/page-backgrounds.css">
@@ -77,13 +77,15 @@ import Header from '../components/Header.astro';
       
       .icon{ width:16px; height:16px; opacity:.9; }
       
-      /* 页面标题 */
-      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:2rem 0 1rem; text-align:center; }
+      .page-container{ min-height: 100vh; padding: 2rem 0; }
+      .page-content{ max-width: 980px; margin: 0 auto; padding: 2rem 22px; background: color-mix(in oklab, #ffffff 85%, transparent);
+        border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+      .page-title{ font-family:"EB Garamond",serif; font-size:48px; margin:0 0 1rem; text-align:center; color:#1e3a8a; }
       .page-subtitle{ font-size:20px; color:var(--muted); text-align:center; margin-bottom:3rem; }
       
       /* 内容区域 */
       .content-section{ margin:2rem 0; padding:2rem; background:color-mix(in oklab,#ffffff 70%, transparent); border-radius:12px; border:1px solid var(--line); }
-      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; color:#3b82f6; }
+      .content-section h2{ font-family:"EB Garamond",serif; font-size:28px; margin:0 0 1rem; color:#1e3a8a; }
       .content-section h3{ font-size:20px; margin:1.5rem 0 0.5rem; }
       
       /* 学术特色样式 */
@@ -132,7 +134,78 @@ import Header from '../components/Header.astro';
       /* 响应式 */
       @media (max-width:768px){
         .page-title{ font-size:36px; }
+        .page-content{ padding:1rem; }
         .content-section{ padding:1rem; }
+      }
+      
+      /* 语言内容显示/隐藏 */
+      .lang-en, .lang-zh {
+        transition: opacity 0.3s ease;
+      }
+      
+      .lang-zh {
+        display: none;
+      }
+      
+      /* Undergraduate Thesis 特殊样式 */
+      .section-title {
+        color: #1e40af;
+      }
+      
+      .thesis-divider {
+        width: 60%;
+        height: 1px;
+        background: #bcd4ff;
+        margin: 1rem auto 2rem;
+      }
+      
+      .thesis-card {
+        background: linear-gradient(to bottom right, #f9fbff, #eef5ff);
+        border: 1.5px solid #c9dbff;
+        border-radius: 12px;
+        padding: 1.5rem 1.75rem;
+        line-height: 1.8;
+      }
+      
+      .thesis-meta {
+        font-style: italic;
+        color: #6B7AAE;
+        letter-spacing: 0.3px;
+        font-size: 15px;
+      }
+      
+      .thesis-keyword {
+        color: #1e40af;
+        font-weight: 600;
+      }
+      
+      .thesis-keyword:hover {
+        color: #1d4ed8;
+      }
+      
+      .thesis-tagline {
+        text-align: center;
+        font-style: italic;
+        font-variant: small-caps;
+        color: #5E6BAF;
+        letter-spacing: 0.6px;
+        font-size: 14px;
+        margin-top: 1.5rem;
+        line-height: 1.6;
+      }
+      
+      /* 荧光笔样式 */
+      .highlight-marker {
+        background: linear-gradient(to bottom, transparent 50%, rgba(254, 240, 138, 0.6) 50%);
+        padding: 0 0.2rem;
+        border-bottom: 2px solid rgba(251, 191, 36, 0.3);
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      .highlight-marker:hover {
+        background: linear-gradient(to bottom, transparent 50%, rgba(254, 240, 138, 0.8) 50%);
+        border-bottom-color: rgba(251, 191, 36, 0.5);
       }
     </style>
   </head>
@@ -153,12 +226,12 @@ import Header from '../components/Header.astro';
       <nav>
         <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
         <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
-        <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
-        <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
-        <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
-        <a href="/polyglot"><svg class="icon"><use href="#ic-chat"/></svg>Polyglot</a>
-        <a href="/reading"><svg class="icon"><use href="#ic-feather"/></svg>Reading</a>
-        <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
+        <a href="/teaching"><svg class="icon"><use href="#ic-book"/></svg>Teaching</a>
+        <a href="/projects"><svg class="icon"><use href="#ic-code"/></svg>Projects</a>
+        <a href="/essays-fiction"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
+        <a href="/music-sound"><svg class="icon"><use href="#ic-note"/></svg>Music & Sound</a>
+        <a href="/mind-mood"><svg class="icon"><use href="#ic-chat"/></svg>Mind & Mood</a>
+        <a href="/cv.pdf"><svg class="icon"><use href="#ic-archive"/></svg>CV</a>
       </nav>
     </div>
 
@@ -166,43 +239,166 @@ import Header from '../components/Header.astro';
     <div class="page-container">
       <div class="page-content">
         <h1 class="page-title">Research</h1>
-        <p class="page-subtitle">Computational Linguistics · Psycholinguistics · NLP</p>
+        <p class="page-subtitle">Affective Computing · Computational Psycholinguistics · Educational Technology</p>
+        <p class="page-subtitle" style="font-size: 16px; margin-top: -2.3rem;">(Bridging emotion, language, and learning through intelligent design)</p>
         
-        <div class="content-section">
-          <h2>Research Interests</h2>
-          <p>My research sits at the intersection of computational linguistics and psycholinguistics. I'm interested in how humans produce and comprehend language, and how NLP models approximate (or fail to approximate) these processes.</p>
+        <!-- Research Overview Section -->
+        <div class="content-section" style="border-left: 4px solid #5A7FFF; background: linear-gradient(to right, rgba(219, 234, 254, 0.15), transparent); position: relative;">
+          <h2 class="section-title" style="text-align: center; font-size: 28px; font-weight: 600; margin-bottom: 0.5rem;">
+            🧠 Research Overview
+          </h2>
+          <div class="thesis-divider"></div>
           
-          <div class="research-highlight">
-            <h4>Current Focus Areas</h4>
-            <ul>
-              <li>Structural priming and agreement attraction</li>
-              <li>In-context learning in large language models</li>
-              <li>Discourse anaphora resolution</li>
-              <li>L2 writing complexity analysis</li>
-            </ul>
+          <div style="max-width: 880px; margin: 0 auto;">
+            <div class="thesis-card">
+              <div class="lang-en">
+                <p style="margin-bottom: 1.2rem;">
+                  My research explores how <span class="thesis-keyword">artificial intelligence</span> can assist <span class="thesis-keyword">emotional learning</span> and <span class="thesis-keyword">cognitive reframing</span> in language education.
+                </p>
+                
+                <p style="margin-bottom: 1.2rem;">
+                  Building upon my undergraduate thesis on <span class="thesis-keyword">lexical complexity</span> in English writing, I now focus on how <span class="thesis-keyword">AI-driven narrative design</span> and <span class="thesis-keyword">affective computing</span> can help learners reshape their <span class="highlight-marker">emotional attributions</span> and reduce <span class="highlight-marker">learning anxiety</span>.
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  In essence, my work bridges <span class="thesis-keyword">linguistics</span>, <span class="thesis-keyword">psychology</span>, and <span class="thesis-keyword">human–computer interaction</span>, aiming to design <span class="highlight-marker">educational systems that heal as they teach</span> — systems that understand emotion as deeply as they process language.
+                </p>
+              </div>
+              
+              <div class="lang-zh">
+                <p style="margin-bottom: 1.2rem;">
+                  我的研究聚焦于 <span class="thesis-keyword">人工智能</span> 如何在语言教育中促进 <span class="thesis-keyword">情绪学习</span> 与 <span class="thesis-keyword">认知重构</span>。
+                </p>
+                
+                <p style="margin-bottom: 1.2rem;">
+                  在本科论文探讨 <span class="thesis-keyword">英语写作词汇复杂度</span> 的基础上，我进一步研究 <span class="thesis-keyword">AI 叙事设计</span> 与 <span class="thesis-keyword">情感计算</span> 如何帮助学习者修正 <span class="highlight-marker">情绪归因</span>，缓解 <span class="highlight-marker">学习焦虑</span>。
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  本研究跨越 <span class="thesis-keyword">语言学</span>、<span class="thesis-keyword">心理学</span> 与 <span class="thesis-keyword">人机交互</span>，致力于设计能 <span class="highlight-marker">在教学中治愈</span> 的教育系统——
+                  一种既能理解语言，也能理解情感的智能系统。
+                </p>
+              </div>
           </div>
           
-          <!-- 研究领域标签 -->
-          <div class="research-tags">
-            <span class="research-tag">Syntax & Semantics</span>
-            <span class="research-tag">Language Acquisition</span>
-            <span class="research-tag">Machine Learning</span>
-            <span class="research-tag">Corpus Linguistics</span>
-            <span class="research-tag">Cognitive Science</span>
-            <span class="research-tag">Multilingual Processing</span>
-            <span class="research-tag">Educational Technology</span>
-            <span class="research-tag">Cantonese Studies</span>
+            <div class="thesis-tagline">
+              <div class="lang-en">
+                Towards affect-aware, emotionally intelligent AI that learns not only from data — but from empathy.
+              </div>
+              <div class="lang-zh">
+                迈向具备情感觉察力的智能系统——让人工智能从"数据"中学习，也从"共情"中学习。
+              </div>
+            </div>
           </div>
         </div>
         
-        <div class="content-section">
-          <h2>Publications</h2>
-          <p>Coming soon...</p>
+        <!-- Current Projects Section -->
+        <div class="content-section" style="border-left: 4px solid #5A7FFF; background: linear-gradient(to right, rgba(219, 234, 254, 0.15), transparent); position: relative;">
+          <h2 class="section-title" style="text-align: center; font-size: 28px; font-weight: 600; margin-bottom: 0.5rem;">
+            🤖 Current Projects
+          </h2>
+          <div class="thesis-divider"></div>
+          
+          <div style="max-width: 880px; margin: 0 auto;">
+            <h3 style="color: #1e40af; font-family: 'EB Garamond', serif; font-size: 24px; margin-bottom: 1.5rem; font-weight: 600; text-align: center;">
+              <div class="lang-en">AURA: AI for Understanding and Reframing Affect</div>
+              <div class="lang-zh">AURA: AI 辅助情绪理解与归因重构系统</div>
+            </h3>
+            
+            <div class="thesis-card">
+              <div class="lang-en">
+                <p style="margin-bottom: 1.2rem;">
+                  <strong>AURA</strong> is an experimental prototype exploring how <span class="thesis-keyword">AI-driven dialogue systems</span> can help students recognize and reframe their <span class="thesis-keyword">emotional attributions</span> in real learning contexts.
+                </p>
+                
+                <p style="margin-bottom: 1.2rem;">
+                  The project integrates <span class="thesis-keyword">natural language processing</span>, <span class="thesis-keyword">affective computing</span>, and <span class="thesis-keyword">educational psychology</span> to identify patterns of <span class="highlight-marker">self-blame</span>, <span class="highlight-marker">anxiety</span>, and <span class="highlight-marker">motivation loss</span> in student reflections — and to deliver <span class="highlight-marker">empathetic, context-aware feedback</span>.
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  The long-term vision of AURA is to create a <span class="thesis-keyword">modular emotional support system</span> that extends beyond classrooms — supporting <span class="highlight-marker">students</span>, <span class="highlight-marker">patients</span>, and <span class="highlight-marker">individuals experiencing psychological distress</span> through <span class="thesis-keyword">adaptive, narrative-based AI interactions</span>.
+                </p>
+              </div>
+              
+              <div class="lang-zh">
+                <p style="margin-bottom: 1.2rem;">
+                  <strong>AURA</strong> 是一个实验性原型系统，用于探索 <span class="thesis-keyword">AI 对话系统</span> 如何帮助学生在真实学习情境中识别并重构自己的 <span class="thesis-keyword">情绪归因</span>。
+                </p>
+                
+                <p style="margin-bottom: 1.2rem;">
+                  项目融合了 <span class="thesis-keyword">自然语言处理</span>、<span class="thesis-keyword">情感计算</span> 与 <span class="thesis-keyword">教育心理学</span>，识别学生反思文本中的 <span class="highlight-marker">自责</span>、<span class="highlight-marker">焦虑</span> 与 <span class="highlight-marker">动机流失</span> 模式，
+                  并提供 <span class="highlight-marker">具同理心且具语境意识的反馈</span>。
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  AURA 的长期目标是构建一个 <span class="thesis-keyword">可模块化的情绪支持系统</span>，
+                  不仅服务于 <span class="highlight-marker">课堂中的学生</span>，也面向 <span class="highlight-marker">患者</span> 与 <span class="highlight-marker">心理障碍人群</span>，
+                  通过 <span class="thesis-keyword">叙事驱动的自适应 AI 交互</span>，
+                  实现"让技术理解人类情感"的教育科技愿景。
+                </p>
+              </div>
+            </div>
+            
+            <div class="thesis-tagline">
+              <div class="lang-en">
+                AURA aims to bridge computational empathy and cognitive design — developing AI systems that not only understand language but also respond to human emotion with care and precision.
+              </div>
+              <div class="lang-zh">
+                AURA 致力于连接计算共情与认知设计——让人工智能不仅理解语言，更能以精准与温柔回应人类情感。
+              </div>
+            </div>
+          </div>
         </div>
         
-        <div class="content-section">
-          <h2>Talks & Posters</h2>
-          <p>Coming soon...</p>
+        <!-- Undergraduate Thesis Section -->
+        <div class="content-section" style="border-left: 4px solid #5A7FFF; background: linear-gradient(to right, rgba(219, 234, 254, 0.15), transparent); position: relative;">
+          <h2 class="section-title" style="text-align: center; font-size: 28px; font-weight: 600; margin-bottom: 0.5rem;">
+            📘 Undergraduate Thesis
+          </h2>
+          <div class="thesis-divider"></div>
+          
+          <div style="max-width: 880px; margin: 0 auto;">
+            <h3 style="color: #1e40af; font-family: 'EB Garamond', serif; font-size: 22px; margin-bottom: 0.75rem; font-weight: 600;">The Effect of Task Type on Lexical Complexity in High School English Writing</h3>
+            
+            <p class="thesis-meta" style="margin-bottom: 1.5rem;">
+              <strong>Institution:</strong> Southwest University<br>
+              <strong>Year:</strong> 2023
+            </p>
+            
+            <div class="thesis-card">
+              <div class="lang-en">
+                <p style="margin-bottom: 1.2rem;">
+                  My undergraduate thesis examined how different <span class="thesis-keyword">writing task types</span> influence the <span class="thesis-keyword">lexical complexity</span> of Chinese high school students' English compositions.
+                  Through <span class="thesis-keyword">corpus-based analysis</span> and linguistic measurement, the research identified task-specific variations in <span class="highlight-marker">vocabulary diversity</span>, <span class="highlight-marker">syntactic elaboration</span>, and <span class="highlight-marker">cognitive load</span>.
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  This project laid the foundation for my current exploration of how <span class="thesis-keyword">language complexity</span> relates to <span class="highlight-marker">cognitive effort</span> and <span class="highlight-marker">emotional engagement</span>, and how <span class="thesis-keyword">AI</span> can assist in balancing these factors within <span class="highlight-marker">educational settings</span>.
+                </p>
+              </div>
+              
+              <div class="lang-zh">
+                <p style="margin-bottom: 1.2rem;">
+                  我的本科毕业论文研究了不同<span class="thesis-keyword">写作任务类型</span>对中国高中生英语作文<span class="thesis-keyword">词汇复杂度</span>的影响。
+                  通过<span class="thesis-keyword">语料库分析</span>与语言学测量，本研究发现任务类型在<span class="highlight-marker">词汇多样性</span>、<span class="highlight-marker">句法复杂度</span>与<span class="highlight-marker">认知负荷</span>等方面存在显著差异。
+                </p>
+                
+                <p style="margin-bottom: 0;">
+                  该研究为我后续探索<span class="thesis-keyword">语言复杂度</span>、<span class="highlight-marker">认知努力</span>与<span class="highlight-marker">情绪参与</span>之间的关系打下了理论基础，
+                  并启发我进一步思考如何通过<span class="thesis-keyword">人工智能</span>技术在<span class="highlight-marker">教育情境</span>中平衡<span class="highlight-marker">学习效率与心理健康</span>。
+                </p>
+              </div>
+            </div>
+            
+            <div class="thesis-tagline">
+              <div class="lang-en">
+                This research represents the intersection of linguistic complexity, cognitive effort, and emotional intelligence — forming the foundation for affect-aware educational AI.
+              </div>
+              <div class="lang-zh">
+                本研究展示了语言复杂度、认知努力与情绪智力的交汇点，为"情感感知型教育人工智能"奠定了理论基础。
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

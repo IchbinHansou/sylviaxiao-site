@@ -252,6 +252,38 @@
   background-clip: text;
 }
 
+/* Teaching页面标题 - 教育绿渐变 */
+.teaching-page .page-title {
+  background: linear-gradient(135deg, #064e3b, #065f46, #047857);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Projects页面标题 - 深绿渐变 */
+.projects-page .page-title {
+  background: linear-gradient(135deg, #14532d, #166534, #15803d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Essays & Fiction页面标题 - 深橙渐变 */
+.essays-fiction-page .page-title {
+  background: linear-gradient(135deg, #92400e, #b45309, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mind & Mood页面标题 - 深紫渐变 */
+.mind-mood-page .page-title {
+  background: linear-gradient(135deg, #581c87, #6b21a8, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* 内容区域标题样式 - 渐变色 */
 .content-section h2 {
   font-family: "EB Garamond", serif;
@@ -372,6 +404,66 @@
 
 .archive-page .content-section h3 {
   background: linear-gradient(135deg, #4b5563, #6b7280);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Teaching页面内容标题 */
+.teaching-page .content-section h2 {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.teaching-page .content-section h3 {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Projects页面内容标题 */
+.projects-page .content-section h2 {
+  background: linear-gradient(135deg, #14532d, #166534);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.projects-page .content-section h3 {
+  background: linear-gradient(135deg, #14532d, #166534);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Essays & Fiction页面内容标题 */
+.essays-fiction-page .content-section h2 {
+  background: linear-gradient(135deg, #92400e, #b45309);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.essays-fiction-page .content-section h3 {
+  background: linear-gradient(135deg, #92400e, #b45309);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mind & Mood页面内容标题 */
+.mind-mood-page .content-section h2 {
+  background: linear-gradient(135deg, #581c87, #6b21a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mind-mood-page .content-section h3 {
+  background: linear-gradient(135deg, #581c87, #6b21a8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -579,6 +671,63 @@
     background-clip: text;
   }
   
+  /* 深色模式下的新页面内容标题 */
+  .teaching-page .content-section h2 {
+    background: linear-gradient(135deg, #10b981, #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .teaching-page .content-section h3 {
+    background: linear-gradient(135deg, #10b981, #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .projects-page .content-section h2 {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .projects-page .content-section h3 {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .essays-fiction-page .content-section h2 {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .essays-fiction-page .content-section h3 {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .mind-mood-page .content-section h2 {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .mind-mood-page .content-section h3 {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
   /* 深色模式下的highlight样式 */
   .research-highlight, .tech-highlight, .music-highlight, .essays-highlight, 
   .polyglot-highlight, .reading-highlight, .archive-highlight {
@@ -698,6 +847,35 @@
   
   .archive-page .page-title {
     background: linear-gradient(135deg, #9ca3af, #6b7280, #4b5563);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* 深色模式下的新页面标题 */
+  .teaching-page .page-title {
+    background: linear-gradient(135deg, #10b981, #059669, #047857);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .projects-page .page-title {
+    background: linear-gradient(135deg, #22c55e, #16a34a, #15803d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .essays-fiction-page .page-title {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .mind-mood-page .page-title {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

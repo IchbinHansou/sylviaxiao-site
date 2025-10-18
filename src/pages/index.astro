@@ -13,10 +13,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Sylvia Zihan Xiao 🌙 | Computational Linguistics × Creative Computing × Storytelling</title>
+    <title>Sylvia Xiao 🌙｜Designing Healing through Learning</title>
 
-    <!-- 字体：EB Garamond + Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- 字体：EB Garamond + Inter + Poppins + Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
       /* ===== 色板：莫奈柔和彩 + 暗色适配 ===== */
@@ -31,6 +31,51 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           --g1:#151821; --g2:#1e2432; --g3:#202634; --g4:#1a2229; --g5:#232033;
           --link:#92a8ff;
         }
+        
+        .chinese-name{
+          color:#e0e0e0;
+        }
+        
+        .wrap{ 
+          background: rgba(28, 28, 30, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 1px 0 rgba(255, 255, 255, 0.1) inset,
+            0 -1px 0 rgba(0, 0, 0, 0.2) inset;
+        }
+        
+        /* 深色模式导航栏 */
+        nav a:hover {
+          background: color-mix(in oklab, #374151 60%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        nav a[aria-current="page"] {
+          background: color-mix(in oklab, #374151 70%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .intro-tag{
+          background:rgba(255,255,255,0.15);
+          border:1px solid rgba(255,255,255,0.25);
+          box-shadow:0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .intro-tag:hover{
+          background:rgba(255,255,255,0.2);
+          box-shadow:0 12px 40px rgba(0,0,0,0.4);
+        }
+        
+        .navWrap::before{
+          background:linear-gradient(135deg, 
+            rgba(255,182,193,0.2) 0%,
+            rgba(173,216,230,0.2) 25%,
+            rgba(144,238,144,0.2) 50%,
+            rgba(255,218,185,0.2) 75%,
+            rgba(255,182,193,0.2) 100%
+          );
+        }
       }
 
       *{ box-sizing:border-box }
@@ -41,6 +86,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         /* 莫奈渐变 + 固定视差 */
         background: linear-gradient(135deg,var(--g1) 0%,var(--g2) 25%,var(--g3) 50%,var(--g4) 75%,var(--g5) 100%);
         background-attachment: fixed;
+        min-height: 100vh;
+        padding: 0 20px;
       }
       /* 细腻噪点 + 极淡角落色团（质感） */
       .bg-noise{ position:fixed; inset:0; z-index:-1; pointer-events:none;
@@ -53,65 +100,86 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         mix-blend-mode: soft-light; opacity:.35;
       }
 
-      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 80px; }
+      .wrap{ 
+        max-width:var(--max); 
+        margin:0 auto; 
+        padding:0 var(--pad) 80px; 
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          0 1px 0 rgba(255, 255, 255, 0.5) inset,
+          0 -1px 0 rgba(0, 0, 0, 0.05) inset;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+      }
 
       /* 顶部：标题 + 语言切换 */
-      .mast{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:26px 0 8px; }
+      .mast{ 
+        display:flex; 
+        justify-content:center; 
+        align-items:flex-start; 
+        gap:12px; 
+        padding:40px 0 20px; 
+        position:relative; 
+        text-align:center;
+      }
       
-      /* 第一行：主标题 */
+      /* 语言切换按钮绝对定位到右上角 */
+      .lang{
+        position:absolute;
+        top:40px;
+        right:0;
+      }
+      
+      /* 主标题 */
       .site-title{ 
         font-family:"EB Garamond",serif; 
-        font-size:44px; 
-        line-height:1.05; 
-        margin:0; 
-        letter-spacing:.2px; 
+        font-size:2.6rem;
+        font-weight:700;
+        line-height:1.1; 
+        margin:0 0 20px 0; 
+        letter-spacing:0.4px;
+        color:#1a1a1a;
       }
       
       /* 中文名字样式 */
       .chinese-name{ 
-        font-size:42px; 
-        color:#666; 
-        font-family:"STSong", "华文中宋", "SimSun", serif;
+        font-family:"FZShuSong-Z01", "方正书宋_GBK", "方正书宋", "FZShuSong", serif;
         font-weight:400;
-        margin-left:8px;
       }
       
-      /* 第二行：简介标签 */
-      .intro-tag{
-        display:inline-block;
-        background:rgba(255,255,255,0.15);
-        backdrop-filter:blur(10px);
-        padding:8px 16px;
-        border-radius:20px;
-        border:1px solid rgba(255,255,255,0.2);
-        font-family:"EB Garamond",serif;
-        font-size:18px;
-        color:var(--fg);
-        margin:12px 0;
-        text-align:center;
-        line-height:1.4;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-      }
-      
-      /* 第三行：艺术人格 */
-      .artistic-persona{
-        font-family:"EB Garamond",serif;
-        font-size:39px;
-        margin:16px 0 0;
-        line-height:1.3;
-      }
-      
-      .persona-label{
+      /* 分隔符 */
+      .divider{
+        margin:0 8px;
         color:#666;
         font-weight:400;
       }
       
-      .seluna-name{
-        color:#2d5016;
-        font-weight:700;
-        margin:0 4px;
+      /* 副标题 */
+      .site-subtitle{
+        font-family:"EB Garamond",serif;
+        font-size:1.2rem;
+        font-weight:400;
+        font-style:normal;
+        color:#555;
+        opacity:0.85;
+        margin:16px 0 2px 0;
+        line-height:1.4;
+      }
+      
+      /* 分隔线 */
+      .header-divider{
+        width:80px;
+        height:1px;
+        background:#e8e8e8;
+        opacity:0.7;
+        margin:0 auto 20px auto;
       }
       
       /* LUNA 方框样式 */
@@ -158,66 +226,166 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         padding:.42rem .9rem; border-radius:10px; cursor:pointer; transition:.2s transform,.2s box-shadow; }
       .lang:hover{ transform:translateY(-1px); box-shadow:0 6px 16px #00000014; }
 
-      /* 粘性导航 + 图标 */
-      .navWrap{ position:sticky; top:0; z-index:40; backdrop-filter:saturate(120%) blur(6px);
-        border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-        background:color-mix(in oklab,#ffffff 80%, transparent); }
-      nav{ max-width:var(--max); margin:0 auto; padding:10px var(--pad); display:flex; flex-wrap:wrap; gap:16px; }
-      nav a{ color:var(--muted); text-decoration:none; display:inline-flex; gap:.45rem; align-items:center; position:relative; }
-      nav a:hover{ color:var(--fg); }
-      
-      /* 导航栏不同主题色 */
-      nav a[href="/"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/research"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#3b82f6,#1d4ed8); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/tech"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#9333ea,#7c3aed); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/essays"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/music"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#ec4899,#db2777); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/polyglot"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#22c55e,#16a34a); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/reading"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/media"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#f59e0b,#d97706); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/speaking"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#22c55e,#16a34a); transform:scaleX(0); transform-origin:left; transition:.25s; 
-      }
-      nav a[href="/archive"]::after{ 
-        content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-        background:linear-gradient(90deg,#6b7280,#4b5563); transform:scaleX(0); transform-origin:left; transition:.25s; 
+      /* 粘性导航 */
+      .navWrap{ 
+        position:sticky; 
+        top:20px; 
+        z-index:40; 
+        backdrop-filter:saturate(120%) blur(8px);
+        border-top:1px solid rgba(255,255,255,0.2); 
+        border-bottom:1px solid rgba(255,255,255,0.2);
+        background:color-mix(in oklab,#ffffff 60%, transparent);
+        position:relative;
+        margin:0 20px;
+        border-radius:12px;
+        border:1px solid rgba(255,255,255,0.3);
+        background-clip:padding-box;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       }
       
-      nav a:hover::after{ transform:scaleX(1); }
+      .navWrap::before{
+        content:'';
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        border-radius:16px;
+        padding:2px;
+        background:linear-gradient(135deg, 
+          rgba(255,182,193,0.3) 0%,
+          rgba(173,216,230,0.3) 25%,
+          rgba(144,238,144,0.3) 50%,
+          rgba(255,218,185,0.3) 75%,
+          rgba(255,182,193,0.3) 100%
+        );
+        mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite:exclude;
+        -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite:xor;
+        z-index:-1;
+      }
+      
+      nav{ 
+        max-width:1140px; 
+        margin:0 auto; 
+        padding:6px 20px 8px 20px; 
+        display:flex; 
+        justify-content:space-between;
+        align-items:center;
+        gap:6px;
+      }
+      
+      nav a{ 
+        color:var(--muted); 
+        text-decoration:none; 
+        font-family:"PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+        font-size:0.95rem;
+        font-weight:400;
+        letter-spacing:0.3px;
+        position:relative;
+        transition:all 0.3s ease;
+        padding:4px 8px;
+        border-radius:4px;
+        border:1px solid transparent;
+        background:transparent;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        min-width:0;
+        height:26px;
+        text-align:center;
+        flex:1;
+        opacity:0.85;
+      }
+      
+      nav a:hover{ 
+        background:color-mix(in oklab, #f8f9fa 60%, transparent);
+        border:1px solid var(--line);
+        transform:translateY(-1px);
+      }
+      
+      nav a[aria-current="page"]{
+        background:color-mix(in oklab, #f8f9fa 70%, transparent);
+        border:1px solid var(--line);
+      }
+      
+      /* 响应式设计 */
+      @media (max-width: 1024px) {
+        .site-title{
+          font-size:2.2rem;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        .site-title{
+          font-size:2.0rem;
+        }
+        
+        .site-subtitle{
+          font-size:0.95rem;
+        }
+        
+        .navWrap{
+          margin:0 15px;
+        }
+        
+        nav{
+          grid-template-columns:repeat(2, 1fr);
+          grid-template-rows:repeat(4, 1fr);
+          gap:12px 20px;
+          padding:6px 20px 16px 20px;
+        }
+        
+        nav a{
+          font-size:0.95rem;
+          font-weight:400;
+          letter-spacing:0.3px;
+          min-width:100px;
+          height:32px;
+          padding:6px 12px;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .site-title{
+          font-size:1.7rem;
+        }
+        
+        .navWrap{
+          margin:0 10px;
+        }
+        
+        nav{
+          flex-wrap:wrap;
+          gap:4px;
+          padding:4px 12px 6px 12px;
+        }
+        
+        nav a{
+          min-height:32px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-family:"PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+          font-size:0.8rem;
+          font-weight:400;
+          letter-spacing:0.3px;
+          min-width:60px;
+          height:28px;
+          padding:2px 6px;
+          flex:1 1 calc(25% - 3px);
+        }
+      }
+      
       .icon{ width:16px; height:16px; opacity:.9; }
 
       /* Hero：左图右文（自适应） */
-      .hero{ display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:center; margin:22px 0 6px; }
+      .hero{ display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:center; margin:40px 0 6px; }
       .photo{ max-width:300px; border-radius:16px; overflow:hidden; border:1px solid var(--line);
         box-shadow:0 12px 28px rgba(0,0,0,.16), 0 1px 0 rgba(255,255,255,.06) inset;
         background: color-mix(in oklab,#fff 6%, transparent); transform:translateZ(0); }
-      .photo img{ width:100%; display:block; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-      .photo:hover img{ transform:scale(1.03); }
+      .photo img{ width:100%; display:block; }
       h1{ font-family:"EB Garamond",serif; font-size:34px; margin:0 0 6px; }
       .tagline{ font-size:20px; color:var(--muted); margin:0 0 10px; }
       
@@ -295,10 +463,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         transition: all 0.2s ease;
       }
       
-      .text-tag:hover {
-        background: color-mix(in oklab, #e9ecef 80%, transparent);
-        transform: translateY(-1px);
-      }
       
       /* 深色模式下的文字标签 */
       @media (prefers-color-scheme: dark) {
@@ -307,9 +471,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           border-color: rgba(255, 255, 255, 0.1);
         }
         
-        .text-tag:hover {
-          background: color-mix(in oklab, #4b5563 80%, transparent);
-        }
       }
 
       /* 兴趣胶囊 - 彩虹色渐变效果 */
@@ -319,128 +480,229 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         transition:.3s transform,.3s box-shadow,.3s border-color,.3s background; 
         position:relative; overflow:hidden; }
       
-      /* Creative Computing - 粉色冰雕质感 */
+      /* Creative Computing - 磨砂白色 */
       .pill.cc{ 
-        background: rgba(255, 182, 193, 0.15);
-        color: #d63384;
-        border: 1px solid rgba(255, 182, 193, 0.25);
-        box-shadow: 0 2px 8px rgba(255, 182, 193, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
-        backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-      }
-      .pill.cc:hover{ 
-        transform:translateY(-1px) scale(1.02); 
-        background: rgba(255, 182, 193, 0.25);
-        box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3), 
-                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        background: rgba(255, 255, 255, 0.8);
+        color: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        backdrop-filter: blur(15px);
+        text-shadow: none;
       }
       
-      /* Computational Linguistics - 紫色冰雕质感 */
+      /* Computational Psycholinguistics - 磨砂白色 */
       .pill.cl{ 
-        background: rgba(196, 181, 253, 0.15);
-        color: #6f42c1;
-        border: 1px solid rgba(196, 181, 253, 0.25);
-        box-shadow: 0 2px 8px rgba(196, 181, 253, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
-        backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-      }
-      .pill.cl:hover{ 
-        transform:translateY(-1px) scale(1.02); 
-        background: rgba(196, 181, 253, 0.25);
-        box-shadow: 0 4px 12px rgba(196, 181, 253, 0.3), 
-                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        background: rgba(255, 255, 255, 0.8);
+        color: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        backdrop-filter: blur(15px);
+        text-shadow: none;
       }
       
-      /* Psycholinguistics - 蓝色冰雕质感 */
+      /* Emotional Learning - 磨砂白色 */
       .pill.pl{ 
-        background: rgba(147, 197, 253, 0.15);
-        color: #2563eb;
-        border: 1px solid rgba(147, 197, 253, 0.25);
-        box-shadow: 0 2px 8px rgba(147, 197, 253, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
-        backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-      }
-      .pill.pl:hover{ 
-        transform:translateY(-1px) scale(1.02); 
-        background: rgba(147, 197, 253, 0.25);
-        box-shadow: 0 4px 12px rgba(147, 197, 253, 0.3), 
-                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        background: rgba(255, 255, 255, 0.8);
+        color: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        backdrop-filter: blur(15px);
+        text-shadow: none;
       }
       
-      /* NLP - 绿色冰雕质感 */
+      /* Narrative Design - 磨砂白色 */
       .pill.nlp{ 
-        background: rgba(134, 239, 172, 0.15);
-        color: #16a34a;
-        border: 1px solid rgba(134, 239, 172, 0.25);
-        box-shadow: 0 2px 8px rgba(134, 239, 172, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
-        backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-      }
-      .pill.nlp:hover{ 
-        transform:translateY(-1px) scale(1.02); 
-        background: rgba(134, 239, 172, 0.25);
-        box-shadow: 0 4px 12px rgba(134, 239, 172, 0.3), 
-                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+        background: rgba(255, 255, 255, 0.8);
+        color: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        backdrop-filter: blur(15px);
+        text-shadow: none;
       }
       
-      /* Music & Language - 黄色冰雕质感 */
+      /* Human-Computer Interaction (HCI) - 磨砂白色 */
       .pill.ml{ 
-        background: rgba(254, 240, 138, 0.15);
-        color: #ca8a04;
-        border: 1px solid rgba(254, 240, 138, 0.25);
-        box-shadow: 0 2px 8px rgba(254, 240, 138, 0.2), 
-                    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.8) inset;
-        backdrop-filter: blur(10px);
-        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.8);
+        color: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        backdrop-filter: blur(15px);
+        text-shadow: none;
       }
-      .pill.ml:hover{ 
-        transform:translateY(-1px) scale(1.02); 
-        background: rgba(254, 240, 138, 0.25);
-        box-shadow: 0 4px 12px rgba(254, 240, 138, 0.3), 
-                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
-                    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+
+      /* Tier 2 - Secondary tags with muted colors */
+      .pills.tier-2 {
+        margin: 0.6rem 0 0.8rem;
+      }
+
+      /* Empathy - soft pink */
+      .pill.tier2-empathy{ 
+        background: rgba(251, 207, 232, 0.12);
+        color: #dc2626;
+        border: 1px solid rgba(220, 38, 38, 0.3);
+        box-shadow: 0 2px 6px rgba(251, 207, 232, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      
+      /* Healing - 森林绿 */
+      .pill.tier2-healing{ 
+        background: rgba(167, 243, 208, 0.12);
+        color: #16a34a;
+        border: 1px solid rgba(22, 163, 74, 0.3);
+        box-shadow: 0 2px 6px rgba(167, 243, 208, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      
+      /* Mental Health - 神秘紫 */
+      .pill.tier2-mental{ 
+        background: rgba(196, 181, 253, 0.12);
+        color: #7c3aed;
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        box-shadow: 0 2px 6px rgba(196, 181, 253, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      
+      /* AI Ethics - 湖水蓝 */
+      .pill.tier2-ai{ 
+        background: rgba(147, 197, 253, 0.12);
+        color: #0284c7;
+        border: 1px solid rgba(2, 132, 199, 0.3);
+        box-shadow: 0 2px 6px rgba(147, 197, 253, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      
+      /* Affective Computing - 粉色 */
+      .pill.tier2-games{ 
+        background: rgba(251, 207, 232, 0.12);
+        color: #ec4899;
+        border: 1px solid rgba(236, 72, 153, 0.3);
+        box-shadow: 0 2px 6px rgba(251, 207, 232, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+      }
+      
+      /* Learning Games - 金黄色 */
+      .pill.tier2-learning{ 
+        background: rgba(254, 240, 138, 0.12);
+        color: #d97706;
+        border: 1px solid rgba(217, 119, 6, 0.3);
+        box-shadow: 0 2px 6px rgba(254, 240, 138, 0.15), 
+                    0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        backdrop-filter: blur(8px);
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
       }
 
       /* 三卡片 - 不同主题色 */
       .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0 0; }
-      .card{ border:1px solid var(--line); border-radius:14px; padding:16px; text-decoration:none; color:var(--fg);
-        background:color-mix(in oklab,#fff 65%, transparent); transition:.22s transform,.22s box-shadow,.22s border-color; }
+      .card{ border:1px solid var(--line); border-radius:14px; padding:20px; text-decoration:none; color:var(--fg);
+        background:color-mix(in oklab,#fff 65%, transparent); 
+        transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position:relative;
+        overflow:hidden;
+        cursor:pointer;
+      }
       
-      /* Publications卡片 - 学术蓝 */
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.5s;
+      }
+      
+      .card:hover::before {
+        left: 100%;
+      }
+      
+      .card-icon {
+        font-size: 24px;
+        margin-right: 12px;
+        display: inline-block;
+        vertical-align: middle;
+        transition: transform 0.3s ease;
+      }
+      
+      .card:hover .card-icon {
+        transform: scale(1.1);
+      }
+      
+      .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      
+      /* Research卡片 - 学术蓝 */
+      .card[href="/research"] .card-icon {
+        color: #3b82f6;
+      }
       .card[href="/research"]:hover{ 
-        transform:translateY(-2px); 
-        box-shadow:0 10px 22px rgba(59, 130, 246, 0.15); 
+        transform:translateY(-4px) scale(1.02); 
+        box-shadow:0 15px 35px rgba(59, 130, 246, 0.2); 
         border-color:#3b82f6;
-        background:color-mix(in oklab,#dbeafe 20%, transparent);
+        background:color-mix(in oklab,#dbeafe 25%, transparent);
+      }
+      .card[href="/research"]:hover .card-icon {
+        color: #1d4ed8;
       }
       
-      /* Projects卡片 - 创意紫 */
+      /* Teaching卡片 - 教育绿 */
+      .card[href="/teaching"] .card-icon {
+        color: #10b981;
+      }
+      .card[href="/teaching"]:hover{ 
+        transform:translateY(-4px) scale(1.02); 
+        box-shadow:0 15px 35px rgba(16, 185, 129, 0.2); 
+        border-color:#10b981;
+        background:color-mix(in oklab,#d1fae5 25%, transparent);
+      }
+      .card[href="/teaching"]:hover .card-icon {
+        color: #059669;
+      }
+      
+      /* Projects卡片 - 深绿色 */
+      .card[href="/projects"] .card-icon {
+        color: #15803d;
+      }
       .card[href="/projects"]:hover{ 
-        transform:translateY(-2px); 
-        box-shadow:0 10px 22px rgba(147, 51, 234, 0.15); 
-        border-color:#9333ea;
-        background:color-mix(in oklab,#e9d5ff 20%, transparent);
+        transform:translateY(-4px) scale(1.02); 
+        box-shadow:0 15px 35px rgba(21, 128, 61, 0.2); 
+        border-color:#15803d;
+        background:color-mix(in oklab,#dcfce7 25%, transparent);
+      }
+      .card[href="/projects"]:hover .card-icon {
+        color: #14532d;
       }
       
-      /* CV卡片 - 专业绿 */
-      .card[href="/CV_Sylvia_Xiao.pdf"]:hover{ 
-        transform:translateY(-2px); 
-        box-shadow:0 10px 22px rgba(34, 197, 94, 0.15); 
-        border-color:#22c55e;
-        background:color-mix(in oklab,#dcfce7 20%, transparent);
+      /* Katya's Path卡片 - 紫色 */
+      .card[href="/mind-mood"] .card-icon {
+        color: #9333ea;
+      }
+      .card[href="/mind-mood"]:hover{ 
+        transform:translateY(-4px) scale(1.02); 
+        box-shadow:0 15px 35px rgba(147, 51, 234, 0.2); 
+        border-color:#9333ea;
+        background:color-mix(in oklab,#e9d5ff 25%, transparent);
+      }
+      .card[href="/mind-mood"]:hover .card-icon {
+        color: #7c3aed;
       }
       
       .card h3{ margin:0 0 6px; font-size:1.05rem; }
@@ -641,9 +903,68 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         .updates-content::-webkit-scrollbar-thumb:hover {
           background: rgba(255, 255, 255, 0.3);
         }
+        
+        footer a{ color:#a8b8d8; }
+        footer a:hover{ color:#c5d3ef; }
       }
 
       footer{ margin-top:32px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); }
+      footer a{ color:#8b9dc3; text-decoration:none; transition:color 0.2s ease; }
+      footer a:hover{ color:#a8b8d8; text-decoration:underline; }
+
+      /* Katya月亮图标 - 固定在右下角 */
+      .katya-moon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .katya-moon a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--fg);
+        transition: all 0.3s ease;
+      }
+
+      .moon-icon {
+        font-size: 32px;
+        width: 65px;
+        height: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+      }
+
+      .moon-hint {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 6px;
+        opacity: 1;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        font-weight: 500;
+      }
+
+      .katya-moon:hover .moon-icon {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        transform: translateY(-2px) scale(1.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+
+      .katya-moon:hover .moon-hint {
+        color: var(--fg);
+        transform: translateY(-1px);
+      }
 
       /* 像素动画区域 - 固定在左下角 */
       .pixel-animation {
@@ -778,10 +1099,52 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       .pixel-animation:hover .animation-hint {
         opacity: 1;
       }
+      
+      /* 深色模式卡片样式 */
+      @media (prefers-color-scheme: dark) {
+        .card {
+          background: color-mix(in oklab, #1f2937 65%, transparent);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .card::before {
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+        
+        .card[href="/research"]:hover {
+          background: color-mix(in oklab, #1e3a8a 25%, transparent);
+          box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+        }
+        
+        .card[href="/teaching"]:hover {
+          background: color-mix(in oklab, #064e3b 25%, transparent);
+          box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3);
+        }
+        
+        .card[href="/projects"]:hover {
+          background: color-mix(in oklab, #14532d 25%, transparent);
+          box-shadow: 0 15px 35px rgba(21, 128, 61, 0.3);
+        }
+        
+        .card[href="/mind-mood"]:hover {
+          background: color-mix(in oklab, #581c87 25%, transparent);
+          box-shadow: 0 15px 35px rgba(147, 51, 234, 0.3);
+        }
+      }
 
       @media (max-width:900px){
         .hero{ grid-template-columns:1fr } 
         .photo{ margin:auto } 
+        
+        body {
+          padding: 0 10px;
+        }
+        
+        .wrap {
+          border-radius: 16px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
         
         /* 移动端iOS风格更新 */
         .updates-container {
@@ -848,12 +1211,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           backdrop-filter: blur(10px);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
-        .pill.cc:hover{ 
-          background: rgba(255, 182, 193, 0.15);
-          box-shadow: 0 4px 12px rgba(255, 182, 193, 0.25), 
-                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
-        }
         
         .pill.cl{ 
           background: rgba(196, 181, 253, 0.1);
@@ -864,12 +1221,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                       0 1px 0 rgba(255, 255, 255, 0.2) inset;
           backdrop-filter: blur(10px);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .pill.cl:hover{ 
-          background: rgba(196, 181, 253, 0.15);
-          box-shadow: 0 4px 12px rgba(196, 181, 253, 0.25), 
-                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
         }
         
         .pill.pl{ 
@@ -882,12 +1233,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           backdrop-filter: blur(10px);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
-        .pill.pl:hover{ 
-          background: rgba(147, 197, 253, 0.15);
-          box-shadow: 0 4px 12px rgba(147, 197, 253, 0.25), 
-                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
-        }
         
         .pill.nlp{ 
           background: rgba(134, 239, 172, 0.1);
@@ -898,12 +1243,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                       0 1px 0 rgba(255, 255, 255, 0.2) inset;
           backdrop-filter: blur(10px);
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .pill.nlp:hover{ 
-          background: rgba(134, 239, 172, 0.15);
-          box-shadow: 0 4px 12px rgba(134, 239, 172, 0.25), 
-                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
         }
         
         .pill.ml{ 
@@ -921,6 +1260,119 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
           box-shadow: 0 4px 12px rgba(254, 240, 138, 0.25), 
                       0 0 0 1px rgba(255, 255, 255, 0.15) inset,
                       0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        /* Dark mode Tier 1 tags - 磨砂白色 */
+        .pill.cc, .pill.cl, .pill.pl, .pill.nlp, .pill.ml {
+          background: rgba(255, 255, 255, 0.15);
+          color: #f8fafc;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+          backdrop-filter: blur(15px);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pill.cc:hover, .pill.cl:hover, .pill.pl:hover, .pill.nlp:hover, .pill.ml:hover {
+          background: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        }
+        
+        /* Dark mode Tier 2 tags */
+        .pill.tier2-empathy{ 
+          background: rgba(255, 255, 255, 0.05);
+          color: #dc2626;
+          border: 2px solid #dc2626;
+          box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+          backdrop-filter: blur(15px) saturate(180%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .pill.tier2-empathy:hover{ 
+          background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(185, 28, 28, 0.15));
+          box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.tier2-healing{ 
+          background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(21, 128, 61, 0.1));
+          color: #16a34a;
+          border: 1px solid rgba(34, 197, 94, 0.25);
+          box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(12px) saturate(150%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .pill.tier2-healing:hover{ 
+          background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.15));
+          box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.tier2-mental{ 
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(109, 40, 217, 0.1));
+          color: #7c3aed;
+          border: 1px solid rgba(124, 58, 237, 0.25);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(12px) saturate(150%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .pill.tier2-mental:hover{ 
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(109, 40, 217, 0.15));
+          box-shadow: 0 6px 16px rgba(124, 58, 237, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.tier2-ai{ 
+          background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(2, 132, 199, 0.1));
+          color: #0284c7;
+          border: 1px solid rgba(14, 165, 233, 0.25);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(12px) saturate(150%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .pill.tier2-ai:hover{ 
+          background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(2, 132, 199, 0.15));
+          box-shadow: 0 6px 16px rgba(14, 165, 233, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.tier2-games{ 
+          background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(219, 39, 119, 0.1));
+          color: #ec4899;
+          border: 1px solid rgba(236, 72, 153, 0.25);
+          box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(12px) saturate(150%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .pill.tier2-games:hover{ 
+          background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(219, 39, 119, 0.15));
+          box-shadow: 0 6px 16px rgba(236, 72, 153, 0.3), 
+                      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.25) inset;
+        }
+        
+        .pill.tier2-learning{ 
+          background: linear-gradient(135deg, rgba(254, 240, 138, 0.15), rgba(217, 119, 6, 0.1));
+          color: #d97706;
+          border: 1px solid rgba(254, 240, 138, 0.25);
+          box-shadow: 0 4px 12px rgba(254, 240, 138, 0.2), 
+                      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+          backdrop-filter: blur(12px) saturate(150%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
       }
       
@@ -949,11 +1401,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       <!-- 标题 + 语言切换 -->
         <div class="mast">
           <div>
-            <h1 class="site-title" id="title">Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span></h1>
-            <div class="intro-tag" id="introTag">Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.</div>
-            <div class="artistic-persona" id="artisticPersona">
-              <span class="persona-label">Artistic Persona</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>
-            </div>
+            <h1 class="site-title" id="title">Sylvia (Zihan) Xiao <span class="divider">|</span> <span class="chinese-name">肖子涵</span></h1>
+            <div class="site-subtitle" id="introTag">Also known as <em>Seluna</em> — my artistic persona exploring emotion, memory, and sound.</div>
+            <div class="header-divider"></div>
           </div>
           <button class="lang" id="langBtn">中文</button>
         </div>
@@ -961,14 +1411,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       <!-- 粘性导航 -->
       <div class="navWrap">
         <nav>
-          <a href="/"><svg class="icon"><use href="#ic-book"/></svg>Home</a>
-          <a href="/research"><svg class="icon"><use href="#ic-book"/></svg>Research</a>
-          <a href="/tech"><svg class="icon"><use href="#ic-code"/></svg>Tech</a>
-          <a href="/music"><svg class="icon"><use href="#ic-note"/></svg>Music</a>
-          <a href="/essays"><svg class="icon"><use href="#ic-feather"/></svg>Essays</a>
-          <a href="/media"><svg class="icon"><use href="#ic-feather"/></svg>Media & Arts</a>
-          <a href="/speaking"><svg class="icon"><use href="#ic-chat"/></svg>Public Speaking</a>
-          <a href="/archive"><svg class="icon"><use href="#ic-archive"/></svg>Archive</a>
+          <a href="/">Home</a>
+          <a href="/research">Research</a>
+          <a href="/teaching">Teaching</a>
+          <a href="/projects">Projects</a>
+          <a href="/essays-fiction">Essays</a>
+          <a href="/music-sound">Music</a>
+          <a href="/mind-mood">Mind</a>
+          <a href="/cv.pdf">CV</a>
         </nav>
       </div>
 
@@ -976,38 +1426,40 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     	<section class="hero">
         <div class="photo"><img src="/imgs/sylviaxiao.jpg" alt="Sylvia Xiao portrait" /></div>
         <div>
-          <h1 id="hello">Hi, I'm Sylvia 🌙</h1>
-          <div class="pills">
-            <span class="pill cc">Creative Computing</span>
-            <span class="pill cl">Computational Linguistics</span>
-            <span class="pill pl">Psycholinguistics</span>
-            <span class="pill nlp">NLP</span>
-            <span class="pill ml">Music &amp; Language</span>
+          <h1 id="hello">Hi, I'm Sylvia 🌲</h1>
+          <!-- Tier 1: Main colorful tags (larger, highlighted) -->
+          <div class="pills tier-1">
+            <span class="pill cc">Computational Psycholinguistics</span>
+            <span class="pill cl">Creative Computing</span>
+            <span class="pill pl">Emotional Learning</span>
+            <span class="pill nlp">Narrative Design</span>
+            <span class="pill ml">Human-Computer Interaction (HCI)</span>
  			</div>
           
-          <!-- 额外的兴趣标签文字版 -->
+          <!-- Tier 2: Secondary tags (medium size, muted colors) -->
+          <div class="pills tier-2">
+            <span class="pill tier2-empathy">Empathy</span>
+            <span class="pill tier2-healing">Healing</span>
+            <span class="pill tier2-mental">Mental Health</span>
+            <span class="pill tier2-ai">AI Ethics</span>
+            <span class="pill tier2-games">Affective Computing</span>
+            <span class="pill tier2-learning">Learning Games</span>
+          </div>
+          
+          <!-- Tier 3: Smaller neutral tags (light grey) -->
           <div class="additional-tags">
-            <span class="text-tag">Linguistics</span>
-            <span class="text-tag">Psycholinguistics</span>
-            <span class="text-tag">NLP</span>
-            <span class="text-tag">Computational Linguistics</span>
-            <span class="text-tag">HCI</span>
-            <span class="text-tag">Cantonese</span>
-            <span class="text-tag">Gender Studies</span>
-            <span class="text-tag">Philosophy</span>
-            <span class="text-tag">Music</span>
-            <span class="text-tag">Songwriting</span>
+            <span class="text-tag">Feminist Theory</span>
+            <span class="text-tag">Memory & Consciousness</span>
+            <span class="text-tag">Digital Companionship</span>
+            <span class="text-tag">Cognitive Science</span>
             <span class="text-tag">Music & Language</span>
-            <span class="text-tag">Nonfiction</span>
-            <span class="text-tag">Sci-Fi</span>
-            <span class="text-tag">Travel</span>
             <span class="text-tag">Education</span>
-            <span class="text-tag">Japanese</span>
-            <span class="text-tag">German</span>
+            <span class="text-tag">Philosophy</span>
+            <span class="text-tag">Songwriting</span>
           </div>
           
           <div id="lead" class="academic-quote">
-            Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.
+            I explore how learning, emotion, and technology intertwine — designing systems that help people think, feel, and heal.
           </div>
   			</div>
 		</section>
@@ -1015,16 +1467,25 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       <!-- 三大板块入口卡片 -->
       <section class="cards">
         <a class="card" href="/research">
-          <h3 id="academic">🎓 Academic</h3>
-          <div class="muted" id="academicNote">Research, Tech projects, and Public Speaking</div>
+          <div class="card-header">
+            <span class="card-icon">🔬</span>
+            <h3 id="research">Research</h3>
+          </div>
+          <div class="muted" id="researchNote">AI for empathy, computational psycholinguistics</div>
         </a>
-        <a class="card" href="/music">
-          <h3 id="creative">🎨 Creative</h3>
-          <div class="muted" id="creativeNote">Music, Essays (incl. Travel), Media & Arts reviews, and Photography</div>
+        <a class="card" href="/teaching">
+          <div class="card-header">
+            <span class="card-icon">📚</span>
+            <h3 id="teaching">Teaching</h3>
+          </div>
+          <div class="muted" id="teachingNote">Narrative learning design, interdisciplinary education</div>
         </a>
-        <a class="card" href="/archive">
-          <h3 id="archive">📚 Archive & Learning</h3>
-          <div class="muted" id="archiveNote">Polyglot notes, Reading lists, and Archive timeline</div>
+        <a class="card" href="/projects">
+          <div class="card-header">
+            <span class="card-icon">🎨</span>
+            <h3 id="creative">Projects</h3>
+          </div>
+          <div class="muted" id="creativeNote">AURA, AI Bella, LUNA Infinity</div>
         </a>
       </section>
 
@@ -1044,6 +1505,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
             <ul class="updates-list">
               <li class="update-item">
                 <span class="update-date">Sep 2025</span>
+                <span class="update-text">Composed a piano solo piece</span>
+              </li>
+              <li class="update-item">
+                <span class="update-date">Sep 2025</span>
                 <span class="update-text">Uploaded travel essay "Walking in Berlin"</span>
               </li>
               <li class="update-item">
@@ -1052,15 +1517,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
               </li>
               <li class="update-item">
                 <span class="update-date">Jul 2025</span>
-                <span class="update-text">Public talk on Musical Theatre</span>
-              </li>
-              <li class="update-item">
-                <span class="update-date">Jun 2025</span>
-                <span class="update-text">Published research paper on Computational Linguistics</span>
-              </li>
-              <li class="update-item">
-                <span class="update-date">May 2025</span>
-                <span class="update-text">Completed music composition workshop</span>
+                <span class="update-text">Started an EP project themed around divination</span>
               </li>
               <li class="update-item">
                 <span class="update-date">Apr 2025</span>
@@ -1072,19 +1529,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
       </section>
 
       <footer>
-        Contact: selunaxiao@gmail.com <br/>
-        Links: GitHub | Google Scholar | ORCID <br/>
-        © Sylvia Zihan Xiao 2025
+        Contact: <a href="mailto:sylvia.zihan.xiao@gmail.com">sylvia.zihan.xiao@gmail.com</a> <br/>
+        Links: <a href="https://FallenLuminaries.com" target="_blank" rel="noopener">FallenLuminaries.com</a> <br/>
+        © Sylvia Xiao 2025
       </footer>
     </div>
 
-    <!-- 像素动画 - 固定在左下角 -->
-    <div class="pixel-animation" id="pixelAnimation">
-      <div class="sylvia-sprite"></div>
-      <div class="tree-sprite"></div>
-      <div class="water-drop"></div>
-      <div class="animation-hint" id="animationHint">Click to water! 🌱</div>
+    <!-- Katya路径月亮图标 - 固定在右下角 -->
+    <div class="katya-moon" id="katyaMoon">
+      <a href="https://katya.luna-infinity.com" target="_blank" rel="noopener">
+        <div class="moon-icon">🌙</div>
+        <div class="moon-hint">Enter Katya's Path</div>
+      </a>
     </div>
+
 
     <!-- 语言切换 + 像素动画交互 -->
     <script type="module">
@@ -1129,38 +1587,36 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
       function setEN() {
         document.documentElement.lang = 'en';
-        $('#title').innerHTML = 'Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span>';
-        $('#introTag').textContent = 'Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.';
-        $('#artisticPersona').innerHTML = '<span class="persona-label">Artistic Persona</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>';
-        $('#hello').textContent = 'Hi, I'm Sylvia 🌙';
+        $('#title').innerHTML = 'Sylvia (Zihan) Xiao <span class="divider">|</span> <span class="chinese-name">肖子涵</span>';
+        $('#introTag').innerHTML = 'Also known as <em>Seluna</em> — my artistic persona exploring emotion, memory, and sound.';
+        $('#artisticPersona').innerHTML = '<span class="persona-label">Artistic Persona</span>: <span class="seluna-name">Seluna</span> in LUNA Infinity Universe';
+        $('#hello').textContent = 'Hi, I\'m Sylvia 🌲';
         $('#lead').textContent =
-          'Researcher × Musician × Writer — exploring how language, memory, and creativity intertwine.';
-        $('#academic').textContent = '🎓 Academic';
-        $('#academicNote').textContent = 'Research, Tech projects, and Public Speaking';
-        $('#creative').textContent = '🎨 Creative';
-        $('#creativeNote').textContent = 'Music, Essays (incl. Travel), Media & Arts reviews, and Photography';
-        $('#archive').textContent = '📚 Archive & Learning';
-        $('#archiveNote').textContent = 'Polyglot notes, Reading lists, and Archive timeline';
+          'I explore how learning, emotion, and technology intertwine — designing systems that help people think, feel, and heal.';
+        $('#research').textContent = 'Research';
+        $('#researchNote').textContent = 'AI for empathy, computational psycholinguistics';
+        $('#teaching').textContent = 'Teaching';
+        $('#teachingNote').textContent = 'Narrative learning design, interdisciplinary education';
+        $('#creative').textContent = 'Projects';
+        $('#creativeNote').textContent = 'AURA, AI Bella, LUNA Infinity';
         btn.textContent = '中文';
-        animationHint.textContent = 'Click to water! 🌱';
       }
 
       function setZH() {
         document.documentElement.lang = 'zh';
-        $('#title').innerHTML = '肖子涵 Sylvia Zihan Xiao <span class="chinese-name" id="chineseName">肖子涵</span>';
-        $('#introTag').textContent = '研究者 × 音乐人 × 写作者 — 探索语言、记忆与创造力的交织。';
-        $('#artisticPersona').innerHTML = '<span class="persona-label">艺术人格</span>: <span class="seluna-name">Seluna</span> in <span class="luna-box">LUNA Infinity Universe</span>';
-        $('#hello').textContent = '你好，我是肖子涵 🌙';
+        $('#title').innerHTML = '肖子涵 Sylvia (Zihan) Xiao';
+        $('#introTag').innerHTML = '也被称为<em>Seluna</em>——我的艺术人格，探索情感、记忆和声音。';
+        $('#artisticPersona').innerHTML = '<span class="persona-label">艺术人格</span>: <span class="seluna-name">Seluna</span> in LUNA Infinity Universe';
+        $('#hello').textContent = '你好，我是肖子涵 🌲';
         $('#lead').textContent =
-          '研究者 × 音乐人 × 写作者 — 探索语言、记忆与创造力的交织。';
-        $('#academic').textContent = '🎓 学术';
-        $('#academicNote').textContent = '研究、技术项目与公开演讲';
-        $('#creative').textContent = '🎨 创意';
-        $('#creativeNote').textContent = '音乐、散文（含旅行）、媒体艺术评论与摄影';
-        $('#archive').textContent = '📚 档案与学习';
-        $('#archiveNote').textContent = '多语言笔记、阅读清单与档案时间线';
+          '我探索学习、情感与技术如何交织——设计帮助人们思考、感受和治愈的系统。';
+        $('#research').textContent = '研究';
+        $('#researchNote').textContent = 'AI共情、计算心理语言学';
+        $('#teaching').textContent = '教学';
+        $('#teachingNote').textContent = '叙事学习设计、跨学科教育';
+        $('#creative').textContent = '项目';
+        $('#creativeNote').textContent = 'AURA、AI Bella、LUNA Infinity';
         btn.textContent = 'EN';
-        animationHint.textContent = '点击浇水！🌱';
       }
 
       // 初始英文

@@ -1,0 +1,301 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Research & Teaching | Sylvia Xiao</title>
+
+    <!-- 字体：Playfair Display + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* ===== 色板：莫奈柔和彩 + 暗色适配 ===== */
+      :root{
+        --fg:#1e2228; --muted:#5c6575; --line:#00000018;
+        --g1:#f6e6e4; --g2:#e2f0f5; --g3:#f4f6db; --g4:#e9f7ef; --g5:#f8ecf2;
+        --link:#5c6cff; --max:980px; --pad:22px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --fg:#e8e9ed; --muted:#a7abb7; --line:#ffffff22;
+          --g1:#151821; --g2:#1e2432; --g3:#202634; --g4:#1a2229; --g5:#232033;
+          --link:#92a8ff;
+        }
+      }
+
+      *{ box-sizing:border-box }
+      html,body{ height:100% }
+      body{
+        margin:0; color:var(--fg);
+        font:16px/1.7 Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+        /* 莫奈渐变 + 固定视差 */
+        background: linear-gradient(135deg,var(--g1) 0%,var(--g2) 25%,var(--g3) 50%,var(--g4) 75%,var(--g5) 100%);
+        background-attachment: fixed;
+      }
+
+      .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad) 80px; }
+
+      /* 页面标题 */
+      .page-header{
+        padding:40px 0 20px;
+        text-align:center;
+      }
+      
+      .page-title{
+        font-family:"Playfair Display",serif;
+        font-size:48px;
+        margin:0 0 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .page-subtitle{
+        font-size:20px;
+        color:var(--muted);
+        margin:0;
+      }
+
+      /* 导航栏 */
+      .navWrap{ 
+        position:sticky; 
+        top:0; 
+        z-index:40; 
+        backdrop-filter:saturate(120%) blur(6px);
+        border-top:1px solid var(--line); 
+        border-bottom:1px solid var(--line);
+        background:color-mix(in oklab,#ffffff 80%, transparent); 
+      }
+      
+      nav{ 
+        max-width:var(--max); 
+        margin:0 auto; 
+        padding:10px var(--pad); 
+        display:flex; 
+        flex-wrap:wrap; 
+        gap:16px; 
+      }
+      
+      nav a{ 
+        color:var(--muted); 
+        text-decoration:none; 
+        display:inline-flex; 
+        gap:.45rem; 
+        align-items:center; 
+        position:relative; 
+        transition:color 0.2s ease;
+      }
+      
+      nav a:hover{ 
+        color:var(--fg); 
+      }
+
+      /* 内容区域 */
+      .content-section{
+        margin:40px 0;
+        padding:32px;
+        background:color-mix(in oklab,#ffffff 95%, transparent);
+        border-radius:16px;
+        border:1px solid var(--line);
+        box-shadow:0 4px 16px rgba(0,0,0,0.05);
+      }
+
+      .section-title{
+        font-family:"Playfair Display",serif;
+        font-size:32px;
+        margin:0 0 20px;
+        color:var(--fg);
+      }
+
+      .section-content{
+        font-size:16px;
+        line-height:1.8;
+        color:var(--fg);
+      }
+
+      .section-content h3{
+        font-family:"Playfair Display",serif;
+        font-size:24px;
+        margin:24px 0 12px;
+        color:var(--fg);
+      }
+
+      .section-content p{
+        margin:16px 0;
+      }
+
+      .section-content ul{
+        margin:16px 0;
+        padding-left:24px;
+      }
+
+      .section-content li{
+        margin:8px 0;
+      }
+
+      /* 教学作品集 */
+      .teaching-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+        gap:24px;
+        margin:24px 0;
+      }
+
+      .teaching-item{
+        padding:20px;
+        background:color-mix(in oklab,#f8f9fa 60%, transparent);
+        border-radius:12px;
+        border:1px solid var(--line);
+        transition:transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .teaching-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 24px rgba(0,0,0,0.1);
+      }
+
+      .teaching-item h4{
+        font-family:"Playfair Display",serif;
+        font-size:20px;
+        margin:0 0 12px;
+        color:var(--fg);
+      }
+
+      .teaching-item p{
+        margin:0;
+        font-size:14px;
+        color:var(--muted);
+      }
+
+      /* 研究概览 */
+      .research-overview{
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-left:4px solid #667eea;
+      }
+
+      /* 深色模式适配 */
+      @media (prefers-color-scheme: dark) {
+        .navWrap{
+          background:color-mix(in oklab,#1f2937 80%, transparent);
+        }
+        
+        .content-section{
+          background:color-mix(in oklab,#1f2937 95%, transparent);
+        }
+        
+        .teaching-item{
+          background:color-mix(in oklab,#374151 60%, transparent);
+        }
+        
+        .research-overview{
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+        }
+      }
+
+      footer{ 
+        margin-top:64px; 
+        padding-top:24px; 
+        border-top:1px solid var(--line); 
+        color:var(--muted);
+        text-align:center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <!-- 页面标题 -->
+      <div class="page-header">
+        <h1 class="page-title">Research & Teaching</h1>
+        <p class="page-subtitle">AI for empathy, narrative learning design</p>
+      </div>
+
+      <!-- 导航栏 -->
+      <div class="navWrap">
+        <nav>
+          <a href="/">Home</a>
+          <a href="/research-teaching">Research & Teaching</a>
+          <a href="/projects">Projects</a>
+          <a href="/mind-mood">Mind & Mood</a>
+          <a href="/essays-fiction">Essays</a>
+          <a href="/music-sound">Music & Sound</a>
+          <a href="/reading-archive">Reading & Archive</a>
+        </nav>
+      </div>
+
+      <!-- 研究概览 -->
+      <section class="content-section research-overview">
+        <h2 class="section-title">Research Overview</h2>
+        <div class="section-content">
+          <p>My research explores the intersection of artificial intelligence, empathy, and narrative learning design. I investigate how technology can be designed to understand and respond to human emotions, creating more meaningful educational experiences.</p>
+          
+          <h3>AI for Empathy</h3>
+          <p>Developing computational models that can recognize, interpret, and respond to emotional cues in learning contexts. This includes work on sentiment analysis in educational dialogue, emotion-aware tutoring systems, and empathetic AI companions for mental health support.</p>
+          
+          <h3>Narrative Learning Design</h3>
+          <p>Exploring how storytelling can enhance learning outcomes, particularly in contexts involving trauma, healing, and personal growth. My work examines how interactive narratives can serve as therapeutic tools and educational interventions.</p>
+          
+          <h3>Current Research Directions</h3>
+          <ul>
+            <li>Emotion-aware educational technology for mental health support</li>
+            <li>Interactive narrative systems for therapeutic learning</li>
+            <li>AI ethics in educational contexts</li>
+            <li>Cross-cultural empathy in computational systems</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 教学作品集 -->
+      <section class="content-section">
+        <h2 class="section-title">Teaching Portfolio</h2>
+        <div class="teaching-grid">
+          <div class="teaching-item">
+            <h4>Musical Theatre & Gender Studies</h4>
+            <p>Exploring representation and narrative in musical theatre through feminist theoretical frameworks. Course materials include analysis of gender performance, cultural critique, and creative expression.</p>
+          </div>
+          
+          <div class="teaching-item">
+            <h4>Education Technology & Learning Design</h4>
+            <p>Designing inclusive and empathetic learning experiences through technology. Covers user-centered design, accessibility, and the intersection of pedagogy and digital tools.</p>
+          </div>
+          
+          <div class="teaching-item">
+            <h4>Creative Computing & AI Ethics</h4>
+            <p>Investigating the ethical implications of AI in creative and educational contexts. Students explore bias, fairness, and the human impact of computational systems.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 设计治愈教育 -->
+      <section class="content-section">
+        <h2 class="section-title">Designing Healing in Education</h2>
+        <div class="section-content">
+          <p><em>A 500-word reflective essay on the role of technology in creating healing educational experiences.</em></p>
+          
+          <p>Education, at its core, is not merely the transmission of knowledge but a process of transformation—one that can either heal or harm. In my journey through the intersection of technology and pedagogy, I have come to understand that the most powerful learning experiences are those that acknowledge the whole human being: their emotions, their struggles, their capacity for growth and healing.</p>
+          
+          <p>The traditional educational model often treats learning as a purely cognitive process, separating mind from body, emotion from intellect. Yet, as someone who has navigated the complexities of mental health while pursuing academic goals, I know that this separation is artificial and ultimately counterproductive. True learning happens when we feel safe, when we feel seen, when we feel that our experiences—including our pain—are valid and valuable.</p>
+          
+          <p>Technology, when designed with empathy and intention, can create these safe spaces for learning. It can provide personalized support that adapts to individual emotional states. It can offer alternative pathways for expression when traditional methods fail. It can create communities of learners who share similar struggles and can support each other's growth.</p>
+          
+          <p>My research in AI for empathy is driven by this vision: technology that doesn't just teach, but heals. Systems that recognize when a student is struggling emotionally and respond with compassion. Tools that help learners process difficult experiences through creative expression. Platforms that build resilience rather than just knowledge.</p>
+          
+          <p>This work is deeply personal. It emerges from my own experiences with therapy, medication, and the ongoing journey of managing bipolar disorder. It comes from understanding that healing is not a destination but a process—one that requires ongoing support, community, and tools for self-understanding.</p>
+          
+          <p>In designing healing educational experiences, I am not just building technology; I am creating possibilities for transformation. Each system I develop is a small step toward a world where learning is not separate from healing, where education serves the whole person, and where technology amplifies our capacity for empathy, understanding, and growth.</p>
+        </div>
+      </section>
+
+      <footer>
+        © Sylvia Xiao · Designing Healing through Learning
+      </footer>
+    </div>
+  </body>
+</html>
